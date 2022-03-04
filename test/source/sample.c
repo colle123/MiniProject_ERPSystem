@@ -13,26 +13,43 @@ int main() {
 
 	_create("abcd", "code VARCHAR(20) number INT TP CHAR FLT FLOAT DBL DOUBLE");
 
-	if (initalizing("C:\\Users\\PKNU\\Desktop\\새 폴더\\samplec") == -1) {
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\samplec") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
+
+	/*
+	print_data();
+	printf("\n");
+	file_column_free();
+	*/
+
+	/*
 	if (_insert(values) == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
+	print_data();
+	printf("\n");
+	file_column_free();
+	*/
 
-	if (_delete(conditional) == -1) {
+	/*
+	if (_delete(conditional) == -1) {		// conditional 에는 조건을 넣어야함 (""로 묶어서) - 기본인 conditional은 "TP=q"이 입력되어있음
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-
+	print_data();
+	printf("\n");
+	file_column_free();
+	*/
+	
 	if (_update(conditional, set) == -1) {
 		printf("%s\n", err_msg);
 
@@ -43,7 +60,7 @@ int main() {
 	print_data();
 
 	printf("\n");
-
+	/*
 	if (_select(conditional, select_column, &select_result_str) == -1) {
 		printf("%s\n", err_msg);
 
@@ -109,4 +126,5 @@ int main() {
 
 	file_column_free();
 	result_free(_result, result_count);
+	*/
 }

@@ -147,7 +147,8 @@
     <ClInclude Include="source\local.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\samplec.dat" />
+    <None Include="abcd.dat" />
+    <None Include="samplec.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
