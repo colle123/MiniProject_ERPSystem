@@ -1,5 +1,6 @@
 #include "local.h"
 
+
 int main() {
 	char* values = "NULL, 800, 'q', 69.11212 , 4215.134555666777";
 	char* conditional = "TP='q'";
