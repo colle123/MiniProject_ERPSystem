@@ -143,6 +143,7 @@
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_InitSampleData.c" />
     <ClCompile Include="source\server.c" />
+    <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h" />
