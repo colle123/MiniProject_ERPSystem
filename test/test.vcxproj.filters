@@ -21,7 +21,10 @@
     <ClCompile Include="source\server.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="source\sample.c">
+    <ClCompile Include="source\MiniProject_ERP_InitSampleData.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,9 +32,8 @@
     <ClInclude Include="source\local.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="samplec.dat" />
-    <None Include="abcd.dat" />
+    <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

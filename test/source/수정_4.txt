@@ -1,0 +1,2 @@
+_insert 매개변수 VALUE중 VARCHAR 문자열 입력시 띄어쓰기와 ,(반점) 입력시 제대로 입력되지 않는점 수정
+file_column_free로 해제 후 다른 파일을 Initializing 하면 제대로 작동하지 않는점 수정

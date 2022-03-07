@@ -113,8 +113,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -140,15 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\client.c" />
-    <ClCompile Include="source\sample.c" />
+    <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
+    <ClCompile Include="source\MiniProject_ERP_InitSampleData.c" />
     <ClCompile Include="source\server.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="abcd.dat" />
-    <None Include="samplec.dat" />
+    <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
