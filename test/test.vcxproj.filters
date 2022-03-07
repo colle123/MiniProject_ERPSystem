@@ -18,13 +18,16 @@
     <ClCompile Include="source\client.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="source\server.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_InitSampleData.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_Warehousing.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\server.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

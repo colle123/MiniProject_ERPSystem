@@ -5,6 +5,8 @@
 
 void Create_File(void);
 void Init_SampleData(void);
+void Insert_WarehousingData(void);
+void Insert_WarehousingData_from_BuyingList(void);
 
 
 typedef struct In_WareHouse					// 입고구조체
@@ -25,6 +27,7 @@ typedef struct In_WareHouse					// 입고구조체
 
 struct Buy_item						// 발주 구조체
 {
+	int num_buyList;					// 발주번호
 	char name_item[20];				// 발주품명
 	int num_item;					// 발주품번
 	int date;						// 발주날짜

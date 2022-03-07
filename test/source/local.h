@@ -1,16 +1,24 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#define INT 1
-#define FLOAT 2
-#define DOUBLE 3
-#define CHAR 4
-#define VARCHAR 5
+#define _INT 1
+#define _FLOAT 2
+#define _DOUBLE 3
+#define _CHAR 4
+#define _VARCHAR 5
 #define ERR_MSG_SIZE 51
+
+#define MENU_LENGTH 21
+#define DATE_LENGTH 11
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <float.h>
 #include <math.h>
+#include <windows.h>
+#include <time.h>
+#include <conio.h>
+
 //╥ндц
 
 typedef struct column {
