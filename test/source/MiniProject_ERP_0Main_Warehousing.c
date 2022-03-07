@@ -171,7 +171,7 @@ int main(void)
 				file_column_free();
 				return -1;
 			}
-
+			
 			print_data();		// 담당자목록 출력
 			printf("\n");
 
@@ -180,7 +180,7 @@ int main(void)
 
 			char select_num_person[100] = "num_responsible=";
 			strcat(select_num_person, Select_Person);
-
+			
 			if (_select(select_num_item, "name_responsibl, num_responsibl", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 				printf("%s\n", err_msg);
 

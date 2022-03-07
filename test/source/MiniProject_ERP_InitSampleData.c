@@ -69,9 +69,10 @@ void Init_SampleData(void)
 
 	/*print_data();
 	printf("\n");
+	file_column_free();
 	*/
 	file_column_free();
-	
+
 
 	// 거래처테이블 샘플데이터 삽입
 	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_company") == -1) {
