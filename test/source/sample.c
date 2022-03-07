@@ -3,7 +3,7 @@
 
 int main() {
 	char* values = "NULL, 800, 'q', 69.11212 , 4215.134555666777";
-	char* conditional = "TP='q'";
+	char* conditional = "TP='c'";
 	char* set = "TP='c'";
 	char* select_column = "code, number, TP, FLT, DBL";
 
@@ -20,13 +20,13 @@ int main() {
 		return -1;
 	}
 
-	/*
+	
 	print_data();
 	printf("\n");
-	file_column_free();
-	*/
+	//file_column_free();
+	
 
-	/*
+	
 	if (_insert(values) == -1) {
 		printf("%s\n", err_msg);
 
@@ -35,8 +35,8 @@ int main() {
 	}
 	print_data();
 	printf("\n");
-	file_column_free();
-	*/
+	//file_column_free();
+	
 
 	/*
 	if (_delete(conditional) == -1) {		// conditional 에는 조건을 넣어야함 (""로 묶어서) - 기본인 conditional은 "TP=q"이 입력되어있음
@@ -49,8 +49,9 @@ int main() {
 	printf("\n");
 	file_column_free();
 	*/
+
 	
-	if (_update(conditional, set) == -1) {
+	if (_update("TP='c'", "code='kor'") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -58,9 +59,9 @@ int main() {
 	}
 
 	print_data();
-
 	printf("\n");
-	/*
+	
+	
 	if (_select(conditional, select_column, &select_result_str) == -1) {
 		printf("%s\n", err_msg);
 
@@ -80,6 +81,7 @@ int main() {
 	result_print(_result, result_count);
 	printf("\n\n");
 
+	/*
 	if ((find = find_result(_result, "FLdf")) == -1) {
 		printf("%s\n", err_msg);
 
@@ -123,8 +125,9 @@ int main() {
 			break;
 		}
 	}
-
+	
 	file_column_free();
 	result_free(_result, result_count);
 	*/
+	
 }

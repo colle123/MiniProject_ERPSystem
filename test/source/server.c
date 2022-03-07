@@ -10,8 +10,9 @@ FILE* F;
 int initalizing(char* file_name) {
 	column tmp;
 	column* cur;
+	int column_line_length = 0;
 	char* column_list;
-	char buff[101];
+	char* buff;
 	char* token;
 	int count = 0;
 	if ((head = (column*)malloc(sizeof(column))) == NULL) {
@@ -33,7 +34,20 @@ int initalizing(char* file_name) {
 		strcpy(err_msg, "File Not Exist");
 		return -1;
 	}
-	column_list = fgets(buff, 101, F);
+	while (1) {
+		char a = fgetc(F);
+		column_line_length++;
+		if (a == '\n')
+			break;
+	}
+	fseek(F, 0, SEEK_SET);
+	buff = (char*)malloc(column_line_length + 1);
+	if (buff == NULL) {
+		strcpy(err_msg, "Memory Allocation Failed");
+
+		return -1;
+	}
+	column_list = fgets(buff, column_line_length + 1, F);
 	token = strtok(column_list, " ");
 	while (1) {
 		switch (count % 3) {
@@ -52,7 +66,7 @@ int initalizing(char* file_name) {
 			break;
 		case 2:
 			tmp.length = atoi(token);
-			if (add_column(tmp, err_msg) == -1) {
+			if (add_column(tmp) == -1) {
 				fclose(F);
 				free(tmp.name);
 				return -1;
@@ -86,6 +100,7 @@ int initalizing(char* file_name) {
 	fseek(F, 0, SEEK_END);
 	data_end_index = ftell(F);
 	fclose(F);
+	free(buff);
 	return 0;
 }
 int add_column(column tmp) {
@@ -129,7 +144,7 @@ int _create(char* file_name, char* column_list) {
 	strcpy(_column_list, column_list);
 	if ((F = fopen(_file_name, "wb")) == NULL) {
 		strcpy(err_msg, "File Can't Open");
-		
+
 		free(_file_name);
 		free(_column_list);
 		return -1;
@@ -209,210 +224,226 @@ int _create(char* file_name, char* column_list) {
 	free(_file_name);
 	free(_column_list);
 	fclose(F);
+
+	return 0;
 }
 int _insert(char* values) {
 
 	char* _values = (char*)malloc(strlen(values) + 1);
-	char* token;
-	int values_count = 0;
+	char* ptr = _values;
 	column* cur = head->next;
+	int index = 0;
+	int IS_STRING = 0;
 
 	strcpy(_values, values);
-
-	{
-		char* tmp = (char*)malloc(strlen(_values) + 1);
-		strcpy(tmp, _values);
-		token = strtok(tmp, ", ");
-		if (strcmp(token, "NULL")) {
-			switch (cur->type) {
-			case CHAR:
-			case VARCHAR:
-				token = token + 1;
-				token[strlen(token) - 1] = '\0';
-				if (strlen(token) > cur->length) {
-					strcpy(err_msg, "Value Length Over");
-					free(_values);
-					free(tmp);
-					return -1;
-				}
-			}
-		}
-		while (cur->next != 0) {
-			cur = cur->next;
-			token = strtok(NULL, ", ");
-			if (token == NULL)
-				break;
-			if (!strcmp(token, "NULL"))
-				continue;
-			switch (cur->type) {
-			case CHAR:
-			case VARCHAR:
-				token = token + 1;
-				token[strlen(token) - 1] = '\0';
-				if (strlen(token) > cur->length) {
-					strcpy(err_msg, "Value Length Over");
-					free(_values);
-					free(tmp);
-					return -1;
-				}
-			}
-		}
-		free(tmp);
-		cur = head->next;
-	}
 	F = fopen(_file_location, "ab");
-	token = strtok(_values, ", ");
-	if (!strcmp(token, "NULL") || token == NULL) {
-		switch (cur->type) {
-		case INT:
-		case FLOAT:
-			fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
-			break;
-		case DOUBLE:
-			fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
-			for (unsigned int i = 0; i < (cur->length) - 4; i++)
-				fputc(pad, F);
-			break;
-		case CHAR:
-		case VARCHAR:
-			for (unsigned int i = 0; i < cur->length; i++)
-				fputc(pad, F);
-			break;
-		}
-
-	}
-	else {
-
-		switch (cur->type) {
-		case INT:
-		{
-			int i_token = atoi(token);
-			fwrite(&i_token, sizeof(int), 1, F);
-
-			break;
-		}
-		case DOUBLE:
-		{
-			char* pos = NULL;
-			double d_token = strtod(token, &pos);
-			fwrite(&d_token, sizeof(double), 1, F);
-
-			break;
-		}
-		case FLOAT:
-		{
-			char* pos = NULL;
-			float f_token = strtof(token, &pos);
-			fwrite(&f_token, sizeof(float), 1, F);
-
-			break;
-		}
-		case CHAR:
-		{
-			char c_token = token[1];
-			fputc(c_token, F);
-			break;
-		}
-		case VARCHAR:
-		{
-			unsigned int destination_index;
-			int padding;
-			char* s_token = (char*)malloc(strlen(token) - 1);
-			if (s_token == 0) {
-				strcpy(err_msg, "Memory Allocation Failed");
-				free(_values);
-				fclose(F);
-				return -1;
+	while (1) {
+		if (ptr[index] == 39)
+			IS_STRING++;
+		if (ptr[index] == ',' && IS_STRING % 2 == 0) {
+			char* tmp = (char*)malloc(index + 1);
+			char* token;
+			strncpy(tmp, ptr, index);
+			tmp[index] = '\0';
+			if (IS_STRING == 2) {
+				token = strtok(tmp, "'");
+				if (token[0] == ' ')
+					token = strtok(NULL, "'");
 			}
-			for (destination_index = 1; destination_index < strlen(token) - 1; destination_index++)
-				s_token[destination_index - 1] = token[destination_index];
-			s_token[destination_index - 1] = '\0';
-
-			fputs(s_token, F);
-			if (strlen(s_token) != cur->length) {
-				padding = cur->length - strlen(s_token);
-				for (int i = 0; i < padding; i++)
-					fputc(pad, F);
+			else if (tmp[0] == ' ' || tmp[strlen(tmp) - 1] == ' ') {
+				token = strtok(tmp, " ");
 			}
-			free(s_token);
+			else
+				token = tmp;
+			ptr = ptr + index + 1;
+			if (!strcmp(token, "NULL")) {
+				switch (cur->type) {
+				case INT:
+				case FLOAT:
+					fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+					break;
+				case DOUBLE:
+					fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+					for (unsigned int i = 0; i < (cur->length) - 4; i++)
+						fputc(pad, F);
+					break;
+				case CHAR:
+				case VARCHAR:
+					for (unsigned int i = 0; i < cur->length; i++)
+						fputc(pad, F);
+					break;
+				}
+			}
+			else {
+				switch (cur->type) {
+				case CHAR:
+				case VARCHAR:
+					if (strlen(token) > cur->length) {
+						strcpy(err_msg, "Value Length Over");
+						free(_values);
+						free(tmp);
+						fclose(F);
+						return -1;
+					}
+				}
 
-			break;
-		}
-		}
-	}
+				switch (cur->type) {
+				case INT:
+				{
+					int i_token = atoi(token);
+					fwrite(&i_token, sizeof(int), 1, F);
 
-	while (cur->next != 0) {
-		cur = cur->next;
-		token = strtok(NULL, ", ");
-		if (token == NULL || !strcmp(token, "NULL")) {
-			switch (cur->type) {
-			case INT:
-			case FLOAT:
-				fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+					break;
+				}
+				case DOUBLE:
+				{
+					char* pos = NULL;
+					double d_token = strtod(token, &pos);
+					fwrite(&d_token, sizeof(double), 1, F);
+
+					break;
+				}
+				case FLOAT:
+				{
+					char* pos = NULL;
+					float f_token = strtof(token, &pos);
+					fwrite(&f_token, sizeof(float), 1, F);
+
+					break;
+				}
+				case CHAR:
+				{
+					char c_token = token[0];
+					fputc(c_token, F);
+					break;
+				}
+				case VARCHAR:
+				{
+					int padding;
+					fputs(token, F);
+					if (strlen(token) != cur->length) {
+						padding = cur->length - strlen(token);
+						for (int i = 0; i < padding; i++)
+							fputc(pad, F);
+					}
+					break;
+				}
+				}
+			}
+			cur = cur->next;
+			index = 0;
+			IS_STRING = 0;
+			free(tmp);
+		}
+		if (ptr[index] == '\0') {
+			ptr = strtok(ptr, "'");
+			if (IS_STRING == 2) {
+				if (ptr[0] == ' ')
+					ptr = strtok(NULL, "'");
+			}
+			if (!strcmp(ptr, "NULL")) {
+				switch (cur->type) {
+				case INT:
+				case FLOAT:
+					fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+					break;
+				case DOUBLE:
+					fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+					for (unsigned int i = 0; i < (cur->length) - 4; i++)
+						fputc(pad, F);
+					break;
+				case CHAR:
+				case VARCHAR:
+					for (unsigned int i = 0; i < cur->length; i++)
+						fputc(pad, F);
+					break;
+				}
+			}
+			else {
+				switch (cur->type) {
+				case CHAR:
+				case VARCHAR:
+					if (strlen(ptr) > cur->length) {
+						strcpy(err_msg, "Value Length Over");
+						free(_values);
+						fclose(F);
+						return -1;
+					}
+				}
+
+				switch (cur->type) {
+				case INT:
+				{
+					int i_token = atoi(ptr);
+					fwrite(&i_token, sizeof(int), 1, F);
+
+					break;
+				}
+				case DOUBLE:
+				{
+					char* pos = NULL;
+					double d_token = strtod(ptr, &pos);
+					fwrite(&d_token, sizeof(double), 1, F);
+
+					break;
+				}
+				case FLOAT:
+				{
+					char* pos = NULL;
+					float f_token = strtof(ptr, &pos);
+					fwrite(&f_token, sizeof(float), 1, F);
+
+					break;
+				}
+				case CHAR:
+				{
+					char c_token = ptr[0];
+					fputc(c_token, F);
+					break;
+				}
+				case VARCHAR:
+				{
+					int padding;
+					fputs(ptr, F);
+					if (strlen(ptr) != cur->length) {
+						padding = cur->length - strlen(ptr);
+						for (int i = 0; i < padding; i++)
+							fputc(pad, F);
+					}
+
+					break;
+				}
+
+				}
+
+			}
+			if (cur->next == 0)
 				break;
-			case DOUBLE:
-				fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
-				for (unsigned int i = 0; i < (cur->length) - 4; i++)
-					fputc(pad, F);
-				break;
-			case CHAR:
-			case VARCHAR:
-				for (unsigned int i = 0; i < cur->length; i++)
-					fputc(pad, F);
+			else {
+				while (cur->next != 0) {
+					cur = cur->next;
+					switch (cur->type) {
+					case INT:
+					case FLOAT:
+						fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+						break;
+					case DOUBLE:
+						fputc('N', F); fputc('U', F); fputc('L', F); fputc('L', F);
+						for (unsigned int i = 0; i < (cur->length) - 4; i++)
+							fputc(pad, F);
+						break;
+					case CHAR:
+					case VARCHAR:
+						for (unsigned int i = 0; i < cur->length; i++)
+							fputc(pad, F);
+						break;
+					}
+				}
 				break;
 			}
-			continue;
 		}
-		switch (cur->type) {
-		case INT:
-		{
-			int i_token = atoi(token);
-			fwrite(&i_token, sizeof(int), 1, F);
 
-			break;
-		}
-		case DOUBLE:
-		{
-			char* pos = NULL;
-			double d_token = strtod(token, &pos);
-			fwrite(&d_token, sizeof(double), 1, F);
-
-			break;
-		}
-		case FLOAT:
-		{
-			char* pos = NULL;
-			float f_token = strtof(token, &pos);
-			fwrite(&f_token, sizeof(float), 1, F);
-
-			break;
-		}
-		case CHAR:
-		{
-			char c_token = token[1];
-			fputc(c_token, F);
-			break;
-		}
-		case VARCHAR:
-		{
-			char* s_token = (char*)malloc(strlen(token) - 1);
-			unsigned int destination_index;
-			int padding;
-
-			for (destination_index = 1; destination_index < strlen(token) - 1; destination_index++)
-				s_token[destination_index - 1] = token[destination_index];
-			s_token[destination_index - 1] = '\0';
-
-			fputs(s_token, F);
-			if (strlen(s_token) != cur->length) {
-				padding = cur->length - strlen(s_token);
-				for (int i = 0; i < padding; i++)
-					fputc(pad, F);
-			}
-			free(s_token);
-			break;
-		}
-		}
+		index++;
 	}
 	fseek(F, 0, SEEK_END);
 	data_end_index = ftell(F);
@@ -431,8 +462,7 @@ int _delete(char* conditional) {
 
 	strcpy(_conditional, conditional);
 	conditional_name = strtok(_conditional, "= ");
-	conditional_value = strtok(NULL, "\0");
-
+	conditional_value = strtok(NULL, "= \0");
 	while (1) {
 		if (!strcmp(cur->name, conditional_name)) {
 			if (cur->type == CHAR || cur->type == VARCHAR) {
@@ -440,6 +470,10 @@ int _delete(char* conditional) {
 					free(_conditional);
 					strcpy(err_msg, "Conditional Length Over");
 					return -1;
+				}
+				else {
+					if (strcmp(conditional_value, "NULL"))
+						conditional_value = strtok(conditional_value, "'");
 				}
 			}
 			column_found = 0;
@@ -535,7 +569,7 @@ int _delete(char* conditional) {
 				break;
 			}
 			c_token = fgetc(F);
-			if (c_token == conditional_value[1])
+			if (c_token == conditional_value[0])
 				conditional_search_success = 1;
 			break;
 		}
@@ -549,9 +583,9 @@ int _delete(char* conditional) {
 					conditional_search_success = 1;
 				break;
 			}
-			s_token = (char*)malloc(strlen(conditional_value) - 1);
-			fread(s_token, strlen(conditional_value) - 2, 1, F);
-			s_token[strlen(conditional_value) - 2] = '\0';
+			s_token = (char*)malloc(cur->length + 1);
+			fread(s_token, cur->length, 1, F);
+			s_token = strtok(s_token, pad_seprator);
 			if (!strcmp(s_token, conditional_value))
 				conditional_search_success = 1;
 			free(s_token);
@@ -615,9 +649,9 @@ int _update(char* conditional, char* set) {
 	strcpy(_set, set);
 
 	conditional_name = strtok(_conditional, "= ");
-	conditional_value = strtok(NULL, "\0");
+	conditional_value = strtok(NULL, "= \0");
 	set_name = strtok(_set, "= ");
-	set_value = strtok(NULL, "\0");
+	set_value = strtok(NULL, "= \0");
 
 	cur = head->next;
 	while (1) {
@@ -630,6 +664,8 @@ int _update(char* conditional, char* set) {
 					return -1;
 				}
 			}
+			if (strcmp(conditional_value, "NULL"))
+				conditional_value = strtok(conditional_value, "'");
 			conditional_column = cur;
 		}
 		if (!strcmp(cur->name, set_name)) {
@@ -725,7 +761,7 @@ int _update(char* conditional, char* set) {
 				break;
 			}
 			c_token = fgetc(F);
-			if (c_token == conditional_value[1])
+			if (c_token == conditional_value[0])
 				conditional_search_success = 1;
 			break;
 		}
@@ -739,9 +775,9 @@ int _update(char* conditional, char* set) {
 					conditional_search_success = 1;
 				break;
 			}
-			s_token = (char*)malloc(strlen(conditional_value) - 1);
-			fread(s_token, strlen(conditional_value) - 2, 1, F);
-			s_token[strlen(conditional_value) - 2] = '\0';
+			s_token = (char*)malloc(conditional_column->length + 1);
+			fread(s_token, conditional_column->length, 1, F);
+			s_token = strtok(s_token, pad_seprator);
 			if (!strcmp(s_token, conditional_value))
 				conditional_search_success = 1;
 			free(s_token);
@@ -809,7 +845,6 @@ int _update(char* conditional, char* set) {
 					for (destination_index = 1; destination_index < strlen(set_value) - 1; destination_index++)
 						s_token[destination_index - 1] = set_value[destination_index];
 					s_token[destination_index - 1] = '\0';
-
 					fputs(s_token, F);
 					if (strlen(s_token) != set_column->length) {
 						padding = set_column->length - strlen(s_token);
@@ -854,7 +889,7 @@ int _select(char* conditional, char* select, char** result) {
 	strcpy(_select, select);
 
 	conditional_name = strtok(_conditional, "= ");
-	conditional_value = strtok(NULL, "\0");
+	conditional_value = strtok(NULL, "= \0");
 
 	while (1) {
 		if (!strcmp(cur->name, conditional_name)) {
@@ -864,6 +899,10 @@ int _select(char* conditional, char* select, char** result) {
 					free(_select);
 					strcpy(err_msg, "Conditional Length Over");
 					return -1;
+				}
+				else {
+					if (strcmp(conditional_value, "NULL"))
+						conditional_value = strtok(conditional_value, "'");
 				}
 			}
 			conditional_column = cur;
@@ -994,14 +1033,13 @@ int _select(char* conditional, char* select, char** result) {
 					break;
 				}
 				c_token = fgetc(F);
-				if (c_token == conditional_value[1])
+				if (c_token == conditional_value[0])
 					conditional_search_success = 1;
 				break;
 			}
 			case VARCHAR:
 			{
 				char* s_token;
-				char* tmp;
 				char c_token;
 				if (!strcmp(conditional_value, "NULL")) {
 					c_token = fgetc(F);
@@ -1009,7 +1047,7 @@ int _select(char* conditional, char* select, char** result) {
 						conditional_search_success = 1;
 					break;
 				}
-				s_token = (char*)malloc(strlen(conditional_value) - 1);
+				s_token = (char*)malloc(conditional_column->length + 1);
 				if (s_token == 0) {
 					strcpy(err_msg, "Memory Allocation Failed");
 					free(_conditional);
@@ -1019,16 +1057,10 @@ int _select(char* conditional, char* select, char** result) {
 					fclose(F);
 					return -1;
 				}
-				fread(s_token, strlen(conditional_value) - 2, 1, F);
-				s_token[strlen(conditional_value) - 2] = '\0';
-				tmp = (char*)malloc(strlen(s_token) + 1);
-				strcpy(tmp, s_token);
-				tmp = strtok(tmp, "'");
-				if (!strcmp(s_token, tmp))
+				fread(s_token, conditional_column->length, 1, F);
+				s_token = strtok(s_token, pad_seprator);
+				if (!strcmp(s_token, conditional_value))
 					conditional_search_success = 1;
-
-
-				free(tmp);
 				free(s_token);
 				break;
 			}
@@ -1348,7 +1380,7 @@ void sdts_free(sdts* node) {
 		free(node);
 	}
 }
-void recursive_column_free_function(column* node){
+void recursive_column_free_function(column* node) {
 	if (node == 0);
 	else {
 		if (node->next != 0)
@@ -1364,4 +1396,9 @@ void file_column_free() {
 	if (select_result_str != NULL)
 		free(select_result_str);
 	free(_file_location);
+	head = 0;
+	tail = 0;
+	data_start_index = 0;
+	data_end_index = 0;
+	data_line_length = 0;
 }
