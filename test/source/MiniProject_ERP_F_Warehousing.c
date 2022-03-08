@@ -27,7 +27,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	
 
 	// Ã¢°í¼±ÅÃ
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// Ã¢°íÆÄÀÏ(WareHouse) ¿ÀÇÂ
+	if (initalizing("WareHouse") == -1) {		// Ã¢°íÆÄÀÏ(WareHouse) ¿ÀÇÂ
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -82,7 +82,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	file_column_free();							// Ã¢°íÆÄÀÏ(WareHouse) ´ÝÀ½
 
 	// ¹ßÁÖ¸®½ºÆ® Ãâ·Â ¹× Á¤º¸ ¹Þ¾Æ¿À±â
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1)	// ¹ßÁÖ¸®½ºÆ®(Buy_item) ÆÄÀÏ¿­±â
+	if (initalizing("Buy_item") == -1)	// ¹ßÁÖ¸®½ºÆ®(Buy_item) ÆÄÀÏ¿­±â
 	{
 		printf("%s\n", err_msg);
 
@@ -125,9 +125,9 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	// ¿©±â±îÁö Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', ]
 
 	//num_item
-	itoa(*(_result->next->_int_data), temp_int, 10);		
-	strcat(Parameter_Insert, temp_int);						
-	strcat(Parameter_Insert, ", ");							
+	strcat(Parameter_Insert, "\'");
+	strcat(Parameter_Insert, *(_result->next->_string_data));
+	strcat(Parameter_Insert, "\', ");
 
 	// ¿©±â±îÁö Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, ]
 
@@ -218,7 +218,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	result_free(_result, result_count);			// _result Æ÷ÀÎÆ®±¸Á¶Ã¼ »èÁ¦
 	
 
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) {
+	if (initalizing("In_WareHouse") == -1) {
 		printf("%s\n", err_msg); 
 
 		file_column_free();
@@ -237,7 +237,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	printf("\n\n");
 	file_column_free();
 
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1) {
+	if (initalizing("Buy_item") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -294,7 +294,7 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 	
 
 	// Ã¢°í¼±ÅÃ
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// Ã¢°íÆÄÀÏ(WareHouse) ¿ÀÇÂ
+	if (initalizing("WareHouse") == -1) {		// Ã¢°íÆÄÀÏ(WareHouse) ¿ÀÇÂ
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -350,7 +350,7 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 
 
 	//Ç°¸ñ¼±ÅÃ
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\item") == -1) {  // Ç°¸ñÆÄÀÏ(item) ¿­±â
+	if (initalizing("item") == -1) {  // Ç°¸ñÆÄÀÏ(item) ¿­±â
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -389,9 +389,9 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 	// ¿©±â±îÁö [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', ]
 	
 	// num_item
-	itoa(*(_result->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
-	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
-	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
+	strcat(Parameter_Insert, "\'");
+	strcat(Parameter_Insert, *(_result->next->_string_data));
+	strcat(Parameter_Insert, "\', ");
 
 	// ¿©±â±îÁö [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, ]
 
@@ -501,7 +501,7 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 	printf("\n\n");
 
 	// ÀÔ°íÅ×ÀÌºí¿¡ ¿Ï¼ºµÈ ÆÄ¶ó¹ÌÅÍ ÀÔ·Â
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) { // ÀÔ°íÆÄÀÏ(In_WareHouse) ¿­±â
+	if (initalizing("In_WareHouse") == -1) { // ÀÔ°íÆÄÀÏ(In_WareHouse) ¿­±â
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -532,7 +532,7 @@ void print_Warehousing_state(void)
 	/*while (1)
 	{*/
 		int Select_Sort = 0;
-		if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) {
+		if (initalizing("In_WareHouse") == -1) {
 			printf("%s\n", err_msg);
 
 			file_column_free();

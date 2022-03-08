@@ -33,43 +33,91 @@ int main(void)
 	while (1)
 	{
 		int Select = 0;
-
-
-		printf(" 입고메뉴입니다.\n 원하시는 메뉴를 선택해주세요 : \n\n");
-		printf("1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 뒤로가기\n");
+		printf("메뉴선택\n원하는 메뉴선택\n");
+		printf("1. 발주\t2. 입고\t3. 뒤로가기\n");
 		scanf("%d", &Select);
-		//getchar();
-
-		if (Select == 1)	// 1.예외입고
+		
+		if (Select == 1) // 발주
 		{
-			Insert_WarehousingData();
+			while (1)
+			{
+				int Select_balju = 0;
+				printf("발주메뉴입니다.\n 원하는 메뉴를 선택해주세요\n");
+				printf("1. 발주등록\t2. 발주조회\t3. 발주삭제\t4. 뒤로가기\n");
+				scanf("%d", &Select_balju);
+
+				if (Select_balju == 1) //발주등록
+				{
+					insertOrderData();
+				}
+				else if (Select_balju == 2)// 발주조회
+				{
+					orderList();
+				}
+				else if (Select_balju == 3) //발주삭제
+				{
+					deleteOrderData();
+				}
+				else if (Select_balju == 4) //뒤로가기
+				{
+					break;
+				}
+				else
+				{
+					printf("잘못된 입력값입니다.\n");
+				}
+			}
 		}
-
-		else if (Select == 2)	// 2.발주입고
+		else if (Select == 2)	// 입고
 		{
-			Insert_WarehousingData_from_BuyingList();
+
+			while (1)
+			{
+				int Select_ibgo = 0;
+				printf(" 입고메뉴입니다.\n 원하시는 메뉴를 선택해주세요 : \n\n");
+				printf("1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 뒤로가기\n");
+				scanf("%d", &Select_ibgo);
+				//getchar();
+
+				if (Select_ibgo == 1)	// 1.예외입고
+				{
+					Insert_WarehousingData();
+				}
+
+				else if (Select_ibgo == 2)	// 2.발주입고
+				{
+					Insert_WarehousingData_from_BuyingList();
+				}
+
+				else if (Select_ibgo == 3)	// 3.입고현황
+				{
+					print_Warehousing_state();
+					break;
+				}
+
+				else if (Select_ibgo == 4)	// 4.뒤로가기
+				{
+					printf("이전 메뉴로 돌아갑니다.");
+					break;
+				}
+				else
+				{
+					printf("잘못된 값입니다.\n");
+				}
+			}
 		}
-
-		else if (Select == 3)	// 3.입고현황
+		else if (Select == 3)	// 뒤로가기
 		{
-			print_Warehousing_state();
-			break;
-		}
-
-		else if (Select == 4)	// 4.뒤로가기
-		{
-			printf("이전 메뉴로 돌아갑니다.");
 			break;
 		}
 		else
 		{
-			printf("잘못된 값입니다.\n");
+			printf("잘못된 입력값 입니다\n");
 		}
-
 	}
 
 
-	// file_column_free();
+	 file_column_free();
 
 	return 0;
 }

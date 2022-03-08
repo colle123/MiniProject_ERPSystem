@@ -7,11 +7,11 @@
 void Create_File(void)
 {
 	// 입고테이블 서버에 생성
-	_create("In_WareHouse", "num_In_WareHouse INT name_warehouse VARCHAR(20) num_warehouse INT name_item VARCHAR(20) num_item INT LOT_number VARCHAR(20)  date INT name_responsible VARCHAR(20) num_responsible INT num_in INT bill INT pay_in INT tax INT pay_sum INT");
+	_create("In_WareHouse", "num_In_WareHouse INT name_warehouse VARCHAR(20) num_warehouse INT name_item VARCHAR(20) num_item VARCHAR(20) LOT_number VARCHAR(20)  date INT name_responsible VARCHAR(20) num_responsible INT num_in INT bill INT pay_in INT tax INT pay_sum INT");
 							// 입고순번				창고이름						창고번호			품목명					품번			품목로트넘버				날짜		담당자명							담당자번호		입고수량		단가		공급가		세금		합계액
 	
 	// 발주테이블 서버에 생성
-	_create("Buy_item", "num_BuyList INT name_item VARCHAR(20) num_item INT LOT_number VARCHAR(20) date INT name_responsible VARCHAR(20) num_responsible INT num_buy INT bill INT pay_in INT tax INT pay_sum INT rest_num_in INT");
+	_create("Buy_item", "num_BuyList INT name_item VARCHAR(20) num_item VARCHAR(20) LOT_number VARCHAR(20) date INT name_responsible VARCHAR(20) num_responsible INT num_buy INT bill INT pay_in INT tax INT pay_sum INT rest_num_in INT");
 	//						발주번호			품목명				품번			품목로트넘버				날짜			담당자명						담당자번호		발주수량		단가		공급가액		세금			합계액			남은발주수량
 	
 	// 거래처테이블 서버에 생성
@@ -23,7 +23,7 @@ void Create_File(void)
 	//								담당자명							담당자번호
 	
 	// 품목테이블 서버에 생성
-	_create("item", "name_item VARCHAR(20) num_item INT State VARCHAR(20) Daily_Output INT LOT_number VARCHAR(20)");
+	_create("item", "name_item VARCHAR(20) num_item VARCHAR(20) State VARCHAR(20) Daily_Output INT LOT_number VARCHAR(20)");
 	//				품목명					품번			계정상태				일일생산량		폼목로트넘버
 	
 	// 창고고테이블 서버에 생성
@@ -34,7 +34,7 @@ void Create_File(void)
 void Init_SampleData(void)
 {
 	// 입고테이블 샘플데이터 삽입
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) {
+	if (initalizing("In_WareHouse") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -72,7 +72,7 @@ void Init_SampleData(void)
 
 
 	// 발주테이블 샘플데이터 삽입
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1) 
+	if (initalizing("Buy_item") == -1) 
 	{
 		printf("%s\n", err_msg);
 
@@ -110,7 +110,7 @@ void Init_SampleData(void)
 
 
 	// 거래처테이블 샘플데이터 삽입
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_company") == -1) {
+	if (initalizing("Buy_company") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -132,7 +132,7 @@ void Init_SampleData(void)
 
 
 	// 담당자테이블 샘플데이터 삽입
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Person_responsibe") == -1) {
+	if (initalizing("Person_responsibe") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -162,7 +162,7 @@ void Init_SampleData(void)
 	
 
 	// 품목테이블 샘플데이터 삽입
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\item") == -1) {
+	if (initalizing("item") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -199,7 +199,7 @@ void Init_SampleData(void)
 	file_column_free();
 
 	// 창고테이블 샘플데이터 삽입
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {
+	if (initalizing("WareHouse") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();

@@ -144,6 +144,7 @@
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_InitSampleData.c" />
+    <ClCompile Include="source\MiniProject_ERP_order.c" />
     <ClCompile Include="source\server.c" />
   </ItemGroup>
   <ItemGroup>
