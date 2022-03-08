@@ -5,6 +5,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
+int num = 4;			// »ùÇÃµ¥ÀÌÅÍ¼ö + 1
 
 void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿Í¼­ ÀÔ·Â
 {
@@ -25,6 +26,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	char Parameter_Insert[1000] = { NULL };				// ÃÖÁ¾À¸·Î _insertÇÔ¼ö·Î ³Ö¾îÁÙ ¹®ÀÚ¿­ (sample.c¿¡¼­ÀÇ value¿Í °°´Ù)
 	char temp_int[20] = { 0 };							// int°ªÀ» ¹®ÀÚ¿­·Î ¹Ù²Ü¶§ ¾µ ÀÓ½Ã ¹®ÀÚ¿­
 	char Select_BuyingList_num[20] = { 0 };				// ¹ßÁÖ¹øÈ£ ÀÔ·Â¹ÞÀ» ÀÓ½Ã ¹®ÀÚ¿­º¯¼ö
+	
 
 	// Ã¢°í¼±ÅÃ
 	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// Ã¢°íÆÄÀÏ ¿ÀÇÂ
@@ -58,6 +60,9 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 		file_column_free();
 		return -1;
 	}
+	itoa(num, temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
+	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
+	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
 
 	strcat(Parameter_Insert, "\'");							// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä
@@ -77,7 +82,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	file_column_free();
 
 	// ¹ßÁÖ¸®½ºÆ® Ãâ·Â ¹× Á¤º¸ ¹Þ¾Æ¿À±â
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1)
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1)	// ¹ßÁÖ¸®½ºÆ® ÆÄÀÏ¿­±â
 	{
 		printf("%s\n", err_msg);
 
@@ -86,16 +91,17 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	}
 
 
-	print_data();
+	print_data();				// ¹ßÁÖ¸®½ºÆ® ¸ñ·ÏÃâ·Â
 	printf("\n");
 
-	printf("\n¹ßÁÖ¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä : ");			// Ãâ·ÂµÈ Ã¢°í¸ñ·Ï¿¡¼­ ¿øÇÏ´Â Ã¢°í¹øÈ£¸¦ º¸°í ÀÔ·Â
-	scanf("%s", Select_BuyingList_num);				// Ã¢°í¹øÈ£¸¦ ÀÔ·Â¹Þ¾Æ ÀúÀå
+	printf("\n¹ßÁÖ¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä : ");			// Ãâ·ÂµÈ ¹ßÁÖ¸ñ·Ï¿¡¼­ Ã³¸®ÇÒ ¹ßÁÖ¹øÈ£¸¦ ÀÔ·Â
+	scanf("%s", Select_BuyingList_num);				// ÀÔ·ÂÇÑ ¹ßÁÖ¹øÈ£¸¦ ÀúÀå
 
-	char select_num_BuyList[100] = "num_BuyList=";
-	strcat(select_num_BuyList, Select_BuyingList_num);
+	char select_num_BuyList[100] = "num_BuyList=";			// selectÇÔ¼ö¸¦ »ç¿ëÇÏ±â À§ÇØ Á¶°Ç¿¡ ³ÖÀ» ¹®ÀÚ¿­º¯¼ö¼±¾ð
+	strcat(select_num_BuyList, Select_BuyingList_num);		// »ý¼ºÇÑ ¹®ÀÚ¿­¿¡ ÀÔ·ÂÇÑ ¹ßÁÖ¹øÈ£¸¦ ³Ö¾î ¾ç½ÄÀ» ¿Ï¼º
 
-	if (_select(select_num_BuyList, "name_item, num_item, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in", &select_result_str) == -1) {	// ¸¸µç ¾ç½ÄÀ» Åä´ë·Î Ã¢°í¸ñ·Ï¿¡¼­ ³»ºÎ Ä®·³Á¤º¸¸¦ ¼±ÅÃÇØ ¹Þ¾Æ¿È
+	// ¿Ï¼ºÇÑ ¾ç½ÄÀ» Á¶°ÇÀ¸·Î ¹ßÁÖ¸®½ºÆ®¿¡¼­ [Ç°¸ñ¸í/¹øÈ£, ÀÔ°í³¯Â¥, ´ã´çÀÚÀÌ¸§/¹øÈ£, ¹ßÁÖ¼ö·®, ´Ü°¡, °ø±Þ°¡¾×, ¼¼±Ý, ÇÕ°è¾×, ³²Àº ¹ßÁÖ¼ö·®] À» ¹Þ¾Æ¿È 
+	if (_select(select_num_BuyList, "name_item, num_item, LOT_number, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in", &select_result_str) == -1) {	// ¸¸µç ¾ç½ÄÀ» Åä´ë·Î Ã¢°í¸ñ·Ï¿¡¼­ ³»ºÎ Ä®·³Á¤º¸¸¦ ¼±ÅÃÇØ ¹Þ¾Æ¿È
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -103,12 +109,12 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	}
 
 	if ((result_count = recv_result(&_result, select_result_str)) == -1) {		// select·Î ¹Þ¾Æ¿Â Á¤º¸¸¦ _result Æ÷ÀÎÆ® ±¸Á¶Ã¼¿¡ ¸â¹ö·Î ÀúÀåÇÔ
-		printf("%s\n", err_msg);
+		printf("%s\n", err_msg);												// ±¸Á¶Ã¼¾ç½ÄÀº ¿¬°á¸®½ºÆ®
 
 		file_column_free();
 		return -1;
 	}
-
+		
 	
 
 	// name_item
@@ -121,19 +127,23 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
 	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
+	//LOT_number
+	strcat(Parameter_Insert, "\'");												// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä
+	strcat(Parameter_Insert, *(_result->next->next->_string_data));		// ¹Þ¾Æ¿Â °á°ú¸¦ ÀúÀå
+	strcat(Parameter_Insert, "\', ");											// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä + ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
+
 	//date
-	itoa(*(_result->next->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
+	itoa(*(_result->next->next->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
 	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
 	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
-
 	//name_responsible
 	strcat(Parameter_Insert, "\'");							// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä
-	strcat(Parameter_Insert, *(_result->next->next->next->_string_data));		// ¹Þ¾Æ¿Â °á°ú¸¦ ÀúÀå
+	strcat(Parameter_Insert, *(_result->next->next->next->next->_string_data));		// ¹Þ¾Æ¿Â °á°ú¸¦ ÀúÀå
 	strcat(Parameter_Insert, "\', ");						// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä + ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
 	//num_responsible
-	itoa(*(_result->next->next->next->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
+	itoa(*(_result->next->next->next->next->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
 	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
 	strcat(Parameter_Insert, ", ");
 
@@ -147,7 +157,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 	strcat(Parameter_Insert, ", ");
 	
 	// bill = ´Ü°¡
-	int bill = *(_result->next->next->next->next->next->next->_int_data);
+	int bill = *(_result->next->next->next->next->next->next->next->_int_data);
 	itoa(bill, temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
 	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
 	strcat(Parameter_Insert, ", ");
@@ -172,7 +182,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 
 	// rest_num_in (ÀÔ°íÀÌÀü °ª)
 	int rest_num_for_Warehousing_after;
-	int rest_num_for_Warehousing_before = *(_result->next->next->next->next->next->next->next->next->next->next->_int_data);
+	int rest_num_for_Warehousing_before = *(_result->next->next->next->next->next->next->next->next->next->next->next->_int_data);
 	
 	// rest_num_in (ÀÔ°íÀÌÈÄ °ª)
 	rest_num_for_Warehousing_after = rest_num_for_Warehousing_before - num_InWarehouse;
@@ -229,24 +239,14 @@ void Insert_WarehousingData_from_BuyingList(void)	// ¹ßÁÖÀÔ°í - ¹ßÁÖÁ¤º¸¸¦ ºÒ·¯¿
 
 	print_data();
 	printf("\n ÀÔ°íµÇÁö ¾ÊÀº ³²Àº ¹ßÁÖ ¼ö·®Àº %d°³ÀÔ´Ï´Ù.\n", rest_num_for_Warehousing_after);
+	num++;
 	file_column_free();
 
-	// name_item, num_item, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in
+	// name_item, num_item, LOT_number, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in
 	
 }
 
-// rest_num_in
-//itoa(*(_result->next->next->next->next->next->next->next->next->next->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
-//strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
-// 
-// 
-//if (_insert("1, 'SampleItem1', 19999, 20220304, 'SamplePerson1', 199, 10, 1000, 10000, 1000, 11000, 100") == -1)
-//{
-//	printf("%s\n", err_msg);
-//
-//	file_column_free();
-//	return -1;
-//}
+
 
 void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 {
@@ -267,7 +267,7 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 	char Select_Person[100];
 	char Parameter_Insert[1000] = { NULL };
 	char temp_int[20] = { 0 };
-
+	
 
 	// Ã¢°í¼±ÅÃ
 	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// Ã¢°íÆÄÀÏ ¿ÀÇÂ
@@ -301,14 +301,18 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 		file_column_free();
 		return -1;
 	}
+	// num_Warehousing
+	itoa(num, temp_int, 10);
+	strcat(Parameter_Insert, temp_int);
+	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
-
+	// name_warehouse
 	strcat(Parameter_Insert, "\'");							// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä
 	strcat(Parameter_Insert, *(_result->_string_data));		// ¹Þ¾Æ¿Â °á°ú¸¦ ÀúÀå
 	strcat(Parameter_Insert, "\', ");						// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä + ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
 															// ex) ¿©±â±îÁö [Parameter_Insert = 'warehouse1', ]
-
+	// num_warehouse
 	itoa(*(_result->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
 	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
 	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
@@ -337,7 +341,7 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 	char select_num_item[100] = "num_item=";
 	strcat(select_num_item, Select_Item);
 
-	if (_select(select_num_item, "name_item, num_item", &select_result_str) == -1) {	// ¸¸µç ¾ç½ÄÀ» Åä´ë·Î Ã¢°í¸ñ·Ï¿¡¼­ ³»ºÎ Ä®·³Á¤º¸¸¦ ¼±ÅÃÇØ ¹Þ¾Æ¿È
+	if (_select(select_num_item, "name_item, num_item, LOT_number", &select_result_str) == -1) {	// ¸¸µç ¾ç½ÄÀ» Åä´ë·Î Ã¢°í¸ñ·Ï¿¡¼­ ³»ºÎ Ä®·³Á¤º¸¸¦ ¼±ÅÃÇØ ¹Þ¾Æ¿È
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -352,17 +356,22 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 		return -1;
 	}
 
+	// name_item
 	strcat(Parameter_Insert, "\'");							// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä
 	strcat(Parameter_Insert, *(_result->_string_data));		// ¹Þ¾Æ¿Â °á°ú¸¦ ÀúÀå
 	strcat(Parameter_Insert, "\', ");						// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä + ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
 															// ex) ¿©±â±îÁö [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', ]
-
+	// num_item
 	itoa(*(_result->next->_int_data), temp_int, 10);		// ¹Þ¾Æ¿Â Á¤º¸°¡ intÇüÀÌ¹Ç·Î ¹®ÀÚ¿­·Î Çüº¯È¯¼öÇà
 	strcat(Parameter_Insert, temp_int);						// º¯È¯ÇÑ ¹®ÀÚ¿­À» Parameter_Insert¿¡ ºÙÀÓ
 	strcat(Parameter_Insert, ", ");							// ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
 
-															// // ex) ¿©±â±îÁö [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, ]
+	// LOT_number
+	strcat(Parameter_Insert, "\'");										// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä
+	strcat(Parameter_Insert, *(_result->next->next->_string_data));		// ¹Þ¾Æ¿Â °á°ú¸¦ ÀúÀå
+	strcat(Parameter_Insert, "\', ");									// ¹®ÀÚ¿­ÀÇ °æ¿ì ¾ÕµÚ·Î ÀÛÀºµû¿ÈÇ¥ ÇÊ¿ä + ³¡³µÀ½À» ÀÇ¹ÌÇÏ´Â ¶ç¾î¾²±â
+																		// // ex) ¿©±â±îÁö [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', ]
 	// printf("%s", Parameter_Insert);
 
 	printf("\n\n");
@@ -480,8 +489,74 @@ void Insert_WarehousingData(void)		// ¿¹¿ÜÀÔ°í - Á¤º¸¸¦ ÇÏ³ªÇÏ³ª ÀÔ·Â
 		return -1;
 	}
 
+	num++;
+
 	print_data();
-	
 	printf("\n\n");
+	file_column_free();
+}
+
+void print_Warehousing_state(void)
+{
+	/*result* _result;
+	result* find;
+	int result_count;*/
+
+	/*while (1)
+	{*/
+		int Select_Sort = 0;
+		if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) {
+			printf("%s\n", err_msg);
+
+			file_column_free();
+			return -1;
+		}
+
+		print_data();
+		printf("\n\n");
+
+	//	printf(" ÀÔ°íÇöÈ²¸Þ´ºÀÔ´Ï´Ù.\n\n");
+	//	printf("1. Ç°¸ñº°\t2. ÀÏÀÚº°\t3. µÚ·Î°¡±â\n");
+	//	printf(" ¿øÇÏ½Ã´Â ¸Þ´º¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä. : ");
+	//	scanf("%d", &Select_Sort);
+	//	file_column_free();
+
+	//	if (Select_Sort == 1)			// Ç°¸ñº°	
+	//	{
+	//		if (_select("*", "num_item", &select_result_str) == -1) {	// ¸¸µç ¾ç½ÄÀ» Åä´ë·Î Ã¢°í¸ñ·Ï¿¡¼­ ³»ºÎ Ä®·³Á¤º¸¸¦ ¼±ÅÃÇØ ¹Þ¾Æ¿È
+	//			printf("%s\n", err_msg);
+
+	//			file_column_free();
+	//			return -1;
+	//		}
+
+
+	//		if ((result_count = recv_result(&_result, select_result_str)) == -1) {		// select·Î ¹Þ¾Æ¿Â Á¤º¸¸¦ _result Æ÷ÀÎÆ® ±¸Á¶Ã¼¿¡ ¸â¹ö·Î ÀúÀåÇÔ
+	//			printf("%s\n", err_msg);
+
+	//			file_column_free();
+	//			return -1;
+	//		}
+
+	//		while (1)
+	//		{
+	//			while (1)
+	//			{
+	//				if(_result->_int_data == )
+	//			}
+	//		}
+
+	//	}
+
+	//	else if (Select_Sort == 2)		// ÀÏÀÚº°	
+	//	{
+
+	//	}
+
+	//	else if (Select_Sort == 3)		// µÚ·Î°¡±â
+	//	{
+	//		break;
+	//	}
+	//}
 	file_column_free();
 }

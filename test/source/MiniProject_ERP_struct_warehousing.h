@@ -7,14 +7,17 @@ void Create_File(void);
 void Init_SampleData(void);
 void Insert_WarehousingData(void);
 void Insert_WarehousingData_from_BuyingList(void);
+void print_Warehousing_state(void);
 
 
 typedef struct In_WareHouse					// 입고구조체
 {
+	int num_In_WareHouse;			// 입고순번
 	char name_warehouse[20];		// 창고이름
 	int num_warehouse;				// 창고번호
 	char name_item[20];				// 품목이름
 	int num_item;					// 품목번호
+	char LOT_number[20];			// 품목 루트넘버
 	int date;						// 입고날짜
 	char name_responsible[20];		// 담당자이름
 	int num_responsible;			// 담당자번호
@@ -27,7 +30,7 @@ typedef struct In_WareHouse					// 입고구조체
 
 struct Buy_item						// 발주 구조체
 {
-	int num_buyList;					// 발주번호
+	int num_buyList;				// 발주번호
 	char name_item[20];				// 발주품명
 	int num_item;					// 발주품번
 	int date;						// 발주날짜
@@ -57,6 +60,10 @@ struct item							// 품목구조체
 {
 	char name_item[20];				// 품목 품명
 	int num_item;					// 품목 품번
+	char State[20];					// 계정구분  - 원자재)RawMaterial, 부제품Subsidiary, 상품Product
+	int Daily_Output;				// 일일 생산량
+	char LOT_number[20];			// RA = 원자재, SU =	부제품, PR = 상품
+									// ex) 
 };
 
 

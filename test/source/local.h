@@ -28,6 +28,7 @@ typedef struct column {
 	int start_index;
 	struct column* next;
 }column;
+
 typedef struct search_data_to_string {
 	char* str;
 	struct search_data_to_string* next;

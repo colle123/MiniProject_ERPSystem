@@ -31,9 +31,9 @@ int main(void)
 	// printf("%d", today_date);
 
 	//테이블생성 및 초기데이터 삽입
-	Create_File();					// 파일생성함수 ( MiniProject_ERP_initSampleData 에 정의 - 선언은 헤더파일 )
+	Create_File();												// 파일생성함수 ( MiniProject_ERP_initSampleData 에 정의 - 선언은 헤더파일 )
 	Init_SampleData();				// 파일내부에 샘플정보(초기정보)를 insert하는 함수 ( MiniProject_ERP_initSampleData 에 정의 - 선언은 헤더파일 )
-
+	
 	//========================================= 실행부 ===========================================
 
 
@@ -42,8 +42,8 @@ int main(void)
 		int Select = 0;
 
 
-		printf("입고유형을 선택해주세요 : \n\n");
-		printf("1. 예외입고\t2. 발주입고\t3. 뒤로가기\n");
+		printf(" 입고메뉴입니다.\n 원하시는 메뉴를 선택해주세요 : \n\n");
+		printf("1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 뒤로가기\n");
 		scanf("%d", &Select);
 		//getchar();
 
@@ -57,12 +57,17 @@ int main(void)
 			Insert_WarehousingData_from_BuyingList();
 		}
 
-		else if (Select == 3)	// 3.뒤로가기
+		else if (Select == 3)	// 3.입고현황
+		{
+			print_Warehousing_state();
+			break;
+		}
+
+		else if (Select == 4)	// 4.뒤로가기
 		{
 			printf("이전 메뉴로 돌아갑니다.");
 			break;
 		}
-
 		else
 		{
 			printf("잘못된 값입니다.\n");
