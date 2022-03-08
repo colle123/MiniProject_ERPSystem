@@ -16,7 +16,7 @@ typedef struct In_WareHouse					// 입고구조체
 	char name_warehouse[20];		// 창고이름
 	int num_warehouse;				// 창고번호
 	char name_item[20];				// 품목이름
-	int num_item;					// 품목번호
+	char num_item[20];					// 품목번호
 	char LOT_number[20];			// 품목 루트넘버
 	int date;						// 입고날짜
 	char name_responsible[20];		// 담당자이름

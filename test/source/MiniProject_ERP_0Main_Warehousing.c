@@ -1,8 +1,6 @@
-#include <stdio.h>
 #include "local.h"
-#include <time.h>
-
 #include"MiniProject_ERP_struct_warehousing.h"
+
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
 
@@ -10,11 +8,6 @@
 
 int main(void)
 {
-	char* values = "NULL, 800, 'q', 69.11212 , 4215.134555666777";
-	char* conditional = "TP='c'";
-	char* set = "TP='c'";
-	char* select_column = "code, number, TP, FLT, DBL";
-
 	result* _result;
 	result* find;
 	int result_count;

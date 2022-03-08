@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include "local.h"
-#include <time.h>
 #include"MiniProject_ERP_struct_warehousing.h"
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -29,7 +27,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	
 
 	// 창고선택
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// 창고파일 오픈
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// 창고파일(WareHouse) 오픈
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -39,17 +37,17 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	print_data();							// 창고목록 출력
 	printf("\n");
 
-	printf("\n창고를 선택해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
+	printf("\n입고할 창고번호를 입력해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
 	scanf("%s", Select_WH);					// 창고번호를 입력받아 저장
 											// ex) 1999를 입력함 = [Select_WH = 1999](문자열임을 주의)
 	
 	char select_num_warehouse[100] = "num_warehouse=";
 	strcat(select_num_warehouse, Select_WH);	// select함수에 조건으로 입력하기 위한 양식만들기
-												// ex) 여기까지 [select_num_warehouse = num_warehouse=1999]
+												
 	if (_select(select_num_warehouse, "name_warehouse, num_warehouse", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
-		file_column_free();
+		file_column_free();		// 창고파일(WareHouse) 닫음
 		return -1;
 	}
 
@@ -60,29 +58,31 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 		file_column_free();
 		return -1;
 	}
-	itoa(num, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
+
+	// num_In_WareHouse
+	itoa(num, temp_int, 10);								// 전역변수num 은 초기값으로 현재 입력되있는 샘플데이터의 갯수(= 3)값을 가짐
 	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, ", ");							// 다음 내용을 위한 쉼표(',')와 띄어쓰기(' ')
 
-
+	// name_warehouse
 	strcat(Parameter_Insert, "\'");							// 문자열의 경우 앞뒤로 작은따옴표 필요
 	strcat(Parameter_Insert, *(_result->_string_data));		// 받아온 결과를 저장
 	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
 
-															// ex) 여기까지 [Parameter_Insert = 'warehouse1', ]
-
+															// ex) 여기까지 Parameter_Insert = [4, 'warehouse1', ]
+	// num_warehouse
 	itoa(*(_result->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
 	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
 	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
 
-															// ex) 여기까지 [Parameter_Insert = 'warehouse1', 1999, ]
+															// ex) 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, ]
 
 	printf("\n\n");
-	result_free(_result, result_count);
-	file_column_free();
+	result_free(_result, result_count);			// 결과값 저장 노드(동적할당)헤제
+	file_column_free();							// 창고파일(WareHouse) 닫음
 
 	// 발주리스트 출력 및 정보 받아오기
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1)	// 발주리스트 파일열기
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\Buy_item") == -1)	// 발주리스트(Buy_item) 파일열기
 	{
 		printf("%s\n", err_msg);
 
@@ -94,13 +94,13 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	print_data();				// 발주리스트 목록출력
 	printf("\n");
 
-	printf("\n발주번호를 선택해주세요 : ");			// 출력된 발주목록에서 처리할 발주번호를 입력
+	printf("\n정보를 불러올 발주번호를 선택해주세요 : ");			// 출력된 발주목록에서 처리할 발주번호를 입력
 	scanf("%s", Select_BuyingList_num);				// 입력한 발주번호를 저장
 
 	char select_num_BuyList[100] = "num_BuyList=";			// select함수를 사용하기 위해 조건에 넣을 문자열변수선언
 	strcat(select_num_BuyList, Select_BuyingList_num);		// 생성한 문자열에 입력한 발주번호를 넣어 양식을 완성
 
-	// 완성한 양식을 조건으로 발주리스트에서 [품목명/번호, 입고날짜, 담당자이름/번호, 발주수량, 단가, 공급가액, 세금, 합계액, 남은 발주수량] 을 받아옴 
+	// 완성한 양식을 조건으로 발주리스트에서 [품목명/번호/루트넘버, 입고날짜, 담당자이름/번호, 발주수량, 단가, 공급가액, 세금, 합계액, 남은 발주수량] 을 받아옴 
 	if (_select(select_num_BuyList, "name_item, num_item, LOT_number, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
@@ -118,91 +118,115 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	
 
 	// name_item
-	strcat(Parameter_Insert, "\'");							// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");							
+	strcat(Parameter_Insert, *(_result->_string_data));		
+	strcat(Parameter_Insert, "\', ");						
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', ]
 
 	//num_item
-	itoa(*(_result->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(*(_result->next->_int_data), temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, ]
 
 	//LOT_number
-	strcat(Parameter_Insert, "\'");												// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->next->next->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");											// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");												
+	strcat(Parameter_Insert, *(_result->next->next->_string_data));		
+	strcat(Parameter_Insert, "\', ");										
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', ]
 
 	//date
-	itoa(*(_result->next->next->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(*(_result->next->next->next->_int_data), temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, ]
 
 	//name_responsible
-	strcat(Parameter_Insert, "\'");							// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->next->next->next->next->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");							
+	strcat(Parameter_Insert, *(_result->next->next->next->next->_string_data));		
+	strcat(Parameter_Insert, "\', ");						
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', ]
 
 	//num_responsible
-	itoa(*(_result->next->next->next->next->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
+	itoa(*(_result->next->next->next->next->next->_int_data), temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, ]
 
 	// 입고수량 입력
 	int num_InWarehouse = 0;
 	printf("입고수량을 입력하세요 : ");
 	scanf("%d", &num_InWarehouse);
 
-	itoa(num_InWarehouse, temp_int, 10);					// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
+	itoa(num_InWarehouse, temp_int, 10);					
+	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");
+
+	// 80을 입력했다는 가정
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, 80, ]
 	
 	// bill = 단가
 	int bill = *(_result->next->next->next->next->next->next->next->_int_data);
-	itoa(bill, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
+	itoa(bill, temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");
 	
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, 80, 1000, ]
+
+
 	// pay_in = 공급가
-	int pay_in = num_InWarehouse * bill;
-	itoa(pay_in, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
+	int pay_in = num_InWarehouse * bill;	// 입고수량 * 단가
+	itoa(pay_in, temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");
+
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, 80, 1000, 80000, ]
+	
+	// tax =세금
+	int tax = pay_in / 10;		// 공급가 / 10
+	itoa(tax, temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");
 	
-	// tax = 세금
-	int tax = pay_in / 10;
-	itoa(tax, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, 80, 1000, 80000, 8000, ]
+
+	// pay_sum = 합계액
+	int pay_sum = pay_in + tax;		// 세금 + 공급가
+	itoa(pay_sum, temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
 	
-	// pay_sum = 세금 + 공급가
-	int pay_sum = pay_in + tax;
-	itoa(pay_sum, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	
+	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, 80, 1000, 80000, 8000, 88000]
 
 	// rest_num_in (입고이전 값)
-	int rest_num_for_Warehousing_after;
-	int rest_num_for_Warehousing_before = *(_result->next->next->next->next->next->next->next->next->next->next->next->_int_data);
+	int rest_num_for_Warehousing_after;					// 입고후 남은 발주량
+	int rest_num_for_Warehousing_before = *(_result->next->next->next->next->next->next->next->next->next->next->next->_int_data);		// 입고전 남은발주량
 	
 	// rest_num_in (입고이후 값)
-	rest_num_for_Warehousing_after = rest_num_for_Warehousing_before - num_InWarehouse;
+	rest_num_for_Warehousing_after = rest_num_for_Warehousing_before - num_InWarehouse;			//  (입고후 남은 발주량 = 입고전 남은 발주량 - 입고량)
+																						
 
 
 	
 	printf("\n\n");
-	file_column_free();
-	result_free(_result, result_count);
+	file_column_free();							// 발주리스트파일(Buy_item) 닫기
+	result_free(_result, result_count);			// _result 포인트구조체 삭제
 	
 
 	if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) {
-		printf("%s\n", err_msg);
+		printf("%s\n", err_msg); 
 
 		file_column_free();
 		return -1;
 	}
 
 	if (_insert(Parameter_Insert) == -1)
-	{
+	{	// = _insert("4, 'warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220304, 'SamplePerson1', 199, 80, 1000, 80000, 8000, 88000") 가 된다
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -229,6 +253,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	itoa(rest_num_for_Warehousing_after, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
 	strcat(update_rest_num_BuyList_after, temp_int);				// 변환한 문자열을 Parameter_Insert에 붙임
 
+	// 입고한 다음 발주정보의 남은 발주수량을 업데이트한다
 	if (_update(select_num_BuyList, update_rest_num_BuyList_after) == -1)
 	{
 		printf("%s\n", err_msg);
@@ -242,7 +267,6 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	num++;
 	file_column_free();
 
-	// name_item, num_item, LOT_number, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in
 	
 }
 
@@ -270,7 +294,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	
 
 	// 창고선택
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// 창고파일 오픈
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\WareHouse") == -1) {		// 창고파일(WareHouse) 오픈
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -280,13 +304,13 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	print_data();				// 창고목록 출력
 	printf("\n");
 
-	printf("\n창고를 선택해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
-	scanf("%s", Select_WH);				// 창고번호를 입력받아 저장
+	printf("\n입고할 창고번호를 입력해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
+	scanf("%s", Select_WH);					// 창고번호를 입력받아 저장
 											// ex) 1999를 입력함 = [Select_WH = 1999](문자열임을 주의)
 
 	char select_num_warehouse[100] = "num_warehouse=";
 	strcat(select_num_warehouse, Select_WH);	// select함수에 조건으로 입력하기 위한 양식만들기
-												// ex) 여기까지 [select_num_warehouse = num_warehouse=1999]
+												// ex) 여기까지 [select_num_warehouse] = [num_warehouse] = [1999]
 	if (_select(select_num_warehouse, "name_warehouse, num_warehouse", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
@@ -304,28 +328,29 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	// num_Warehousing
 	itoa(num, temp_int, 10);
 	strcat(Parameter_Insert, temp_int);
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, ", ");						
 
 	// name_warehouse
-	strcat(Parameter_Insert, "\'");							// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");							
+	strcat(Parameter_Insert, *(_result->_string_data));		
+	strcat(Parameter_Insert, "\', ");						
 
-															// ex) 여기까지 [Parameter_Insert = 'warehouse1', ]
+	// 여기까지 [Parameter_Insert = 'warehouse1', ]
+
 	// num_warehouse
-	itoa(*(_result->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(*(_result->next->_int_data), temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
 
-															// ex) 여기까지 [Parameter_Insert = 'warehouse1', 1999, ]
+	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, ]
 
 	printf("\n\n");
-	result_free(_result, result_count);
-	file_column_free();
+	result_free(_result, result_count);		// _result구조체 삭제
+	file_column_free();						// 창고파일(WareHouse) 닫기
 
 
 	//품목선택
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\item") == -1) {
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\item") == -1) {  // 품목파일(item) 열기
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -361,33 +386,36 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	strcat(Parameter_Insert, *(_result->_string_data));		// 받아온 결과를 저장
 	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
 
-															// ex) 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', ]
+	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', ]
+	
 	// num_item
 	itoa(*(_result->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
 	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
 	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
 
+	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, ]
+
 	// LOT_number
 	strcat(Parameter_Insert, "\'");										// 문자열의 경우 앞뒤로 작은따옴표 필요
 	strcat(Parameter_Insert, *(_result->next->next->_string_data));		// 받아온 결과를 저장
 	strcat(Parameter_Insert, "\', ");									// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
-																		// // ex) 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', ]
-	// printf("%s", Parameter_Insert);
-
+	
+	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', ]
+	
 	printf("\n\n");
-	result_free(_result, result_count);
-	file_column_free();
+	result_free(_result, result_count);		// _result 포인터 구조체 삭제
+	file_column_free();						// 품목파일(item) 닫음
 
 
-	// 날짜입력
+	// 날짜입력 - 자동계산
 	itoa(today_date, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
 	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
 	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
-	//printf("%s", Parameter_Insert);
 
+	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', 20220304, ]
 
 	// 담당자입력
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Person_responsibe") == -1) {
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\Person_responsibe") == -1) {		// 담당자파일(Person_responsibe)열기
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -397,13 +425,13 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	print_data();		// 담당자목록 출력
 	printf("\n");
 
-	printf("\n담당자를 선택해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
-	scanf("%s", Select_Person);				// 창고번호를 입력받아 저장
+	printf("\n담당자를 선택해주세요 : ");		// 출력된 담당자목록에서 원하는 담당자번호를 보고 입력
+	scanf("%s", Select_Person);				// 담당자번호를 입력받아 저장
 
 	char select_num_person[100] = "num_responsible=";
 	strcat(select_num_person, Select_Person);
 
-	if (_select(select_num_person, "name_responsible, num_responsible", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+	if (_select(select_num_person, "name_responsible, num_responsible", &select_result_str) == -1) {	
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -418,21 +446,21 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 		return -1;
 	}
 
-	strcat(Parameter_Insert, "\'");							// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");							
+	strcat(Parameter_Insert, *(_result->_string_data));		
+	strcat(Parameter_Insert, "\', ");						
 
 															// ex) 여기까지 [Parameter_Insert = 'warehouse1' ]
 
-	itoa(*(_result->next->_int_data), temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(*(_result->next->_int_data), temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
 
 	// printf("%s", Parameter_Insert);
 
 	printf("\n\n");
-	result_free(_result, result_count);
-	file_column_free();
+	result_free(_result, result_count);				// _result 포인터구조체 삭제
+	file_column_free();								// 담당자파일(Person_responsibe) 닫기
 
 
 
@@ -441,47 +469,46 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	printf("입고수량을 입력하세요 : ");
 	scanf("%d", &num_InWarehouse);
 
-	itoa(num_InWarehouse, temp_int, 10);					// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(num_InWarehouse, temp_int, 10);					
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
 
 	int bill = 0;
 	printf("단가를 입력하세요 : ");
 	scanf("%d", &bill);
 
-	itoa(bill, temp_int, 10);					// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(bill, temp_int, 10);					
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
 
 	int pay_in = bill * num_InWarehouse;
 
-	itoa(pay_in, temp_int, 10);					// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(pay_in, temp_int, 10);					
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");						
 
 	int tax = pay_in / 10;
 
-	itoa(tax, temp_int, 10);					// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(tax, temp_int, 10);					
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
 
 	int pay_sum = pay_in + tax;
+	itoa(pay_sum, temp_int, 10);					
+	strcat(Parameter_Insert, temp_int);						
 
-	itoa(pay_sum, temp_int, 10);					// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-
-	// printf("%s", Parameter_Insert);
+	
 	printf("\n\n");
 
 	// 입고테이블에 완성된 파라미터 입력
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) {
+	if (initalizing("D:\\1_IoT\\Server_test\\test\\In_WareHouse") == -1) { // 입고파일(In_WareHouse) 열기
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
 
-	if (_insert(Parameter_Insert) == -1)
+	if (_insert(Parameter_Insert) == -1)	// 완성된 양식화된 문자열을 _insert
 	{
 		printf("%s\n", err_msg);
 
@@ -493,7 +520,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 
 	print_data();
 	printf("\n\n");
-	file_column_free();
+	file_column_free();		// 입고파일(In_WareHouse) 닫기
 }
 
 void print_Warehousing_state(void)
