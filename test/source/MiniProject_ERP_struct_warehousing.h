@@ -8,7 +8,11 @@ void Init_SampleData(void);
 void Insert_WarehousingData(void);
 void Insert_WarehousingData_from_BuyingList(void);
 void print_Warehousing_state(void);
-
+void delete_Warehousing(void);
+void Insert(void);
+void edit_minus_table(void);		////생산 넘겨주며 수량 하나씩 빼고 넘겨주기
+void edit_plus_table(void);			////입고한 수량만큼 더해주기
+void jaego_print1(void);			////최종 재고 수량 출력해서 조회
 
 typedef struct In_WareHouse					// 입고구조체
 {
@@ -27,6 +31,23 @@ typedef struct In_WareHouse					// 입고구조체
 	int tax;						// 부가세 = 공급가액 * 0.1
 	int pay_sum;					// 합계액 = 공급가액 + 부가세;
 }warehouse;
+
+typedef struct jaego					// 재고 조회 구조체
+{
+	int num_Jaego;					// 재고순번
+	char name_item[20];				// 품목이름
+	char num_item[20];				// 품목번호
+	char name_warehouse[20];		// 창고이름
+	int num_warehouse;				// 창고번호
+	char LOT_number[20];			// 품목 루트넘버
+	int date;						// 입고날짜
+	int num_chogi_item;				// 초기수량
+	int num_in;						// 입고수량
+	int num_chulgo_item;			// 출고수량
+	int num_jaego_item;				// 최종 재고 수량
+
+
+}Jaego;
 
 struct Buy_item						// 발주 구조체
 {
@@ -65,6 +86,60 @@ struct item							// 품목구조체
 	char LOT_number[20];			// RA = 원자재, SU =	부제품, PR = 상품
 									// ex) 
 };
+typedef struct Work_Use			// 자재 사용(작업별) 구조체
+{
+	char work_order_num[20];	//작업지시번호
+	char Product_num[20];		// 품목번호
+	char Product_name[20];		// 품목이름
+	int Amountused;				//사용수량
+	int Performanced_number;	//실적번호
+	char LOT[20];				//lot넘버
+
+}workuse;
+
+typedef struct Work_process			// 작업지시 부분 
+{
+	char work_order_num[20];	//작업지시번호
+	char Product_name[20];		//품명
+	char Product_num;			//품번
+	char client[10];			//이름
+	int indicated_quantity;		//지시수량
+	int performance_quantity;	//실적수량
+	int performance_num;		//실적번호
+	char LOT[20];				//실적lot넘버
+
+};
+
+typedef struct Work_Productwork		// 자재사용현황(제품별)
+{
+	int work_order_num;	//작업지시번호(작업지시부분)
+	int Product_num;		//품목번호(작업지시부분)
+	char Product_name[20];	//품목이름(작업지시부분)
+	int LOT;				//lot번호(작업지시부분)
+	int indicated_quantity;	//지시수량=실적수량(작업지시부분)
+	char item_NUMBER[20];	//물품번호(제품등록부분)
+	char item_NAME[20];		//물품명
+	char item_LOT[20];		//물품 lot번호
+	int Amountused;			//사용수량(입력)
+
+};
+
+typedef struct ITEM			// 물품등록
+{
+	char item_NAME[20];		//물품명
+	char item_NUMBER[20];	//물품번호
+	char item_TYPE[20];
+	int item_GOAL;
+	char item_LOT[20];
+	char tem_SirealNUMBER[20];
+};
+
+
+/* 생산품 청구등록 -> 작업지시
+   사용일자(입력)
+   품번,품명,규격,단위 LOT넘버-> 서버 품목구조체리스트에서받음
+   사용수량 (입력)
+   공정, 작업장 입력 , 실적번호*/
 
 
 	// < 입고처리 >

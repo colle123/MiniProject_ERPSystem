@@ -33,6 +33,15 @@
     <ClCompile Include="source\MiniProject_ERP_order.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_Work.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_jago.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h">

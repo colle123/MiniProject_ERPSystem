@@ -11,7 +11,7 @@ void Create_File(void)
 							// 입고순번				창고이름						창고번호			품목명					품번			품목로트넘버				날짜		담당자명							담당자번호		입고수량		단가		공급가		세금		합계액
 	
 	// 발주테이블 서버에 생성
-	_create("Buy_item", "num_BuyList INT name_item VARCHAR(20) num_item VARCHAR(20) LOT_number VARCHAR(20) date INT name_responsible VARCHAR(20) num_responsible INT num_buy INT bill INT pay_in INT tax INT pay_sum INT rest_num_in INT");
+	_create("Buy_item", "num_BuyList INT item_NAME VARCHAR(20) item_NUMBER VARCHAR(20) item_LOT VARCHAR(20) date INT name_responsible VARCHAR(20) num_responsible INT num_buy INT bill INT pay_in INT tax INT pay_sum INT rest_num_in INT");
 	//						발주번호			품목명				품번					품목로트넘버				날짜			담당자명						담당자번호		발주수량		단가		공급가액		세금			합계액			남은발주수량
 	
 	// 거래처테이블 서버에 생성
@@ -29,6 +29,31 @@ void Create_File(void)
 	// 창고고테이블 서버에 생성
 	_create("WareHouse", "name_warehouse VARCHAR(30) num_warehouse INT");
 	//						창고이름						창고번호
+
+	// <생산계획등록>
+	_create("Production_Plan_Registration", "Item_Number VARCHAR(20) Name VARCHAR(20) Daily_Capacity INT Order VARCHAR(20) ETC INT Quantity INT");
+	//											품번					품명					일 생산량			순서			작업예정일	수량
+
+	//<작업지시등록>
+	_create("Work_Order_Registration", "Due_Date INT Quantity INT Work_Instruction_Number INT LOT VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20)");
+	//Work Instruction Number에 (제품구분+(공정)+날짜+번호) 들어감
+	//									납기일		 지시수량		작업지시번호					LOT				품번						품명				고객
+
+	// 자제사용현황(작업별) 테이블 생성
+	_create("Work_Use", "Performance_number VARCHAR(20) num_item VARCHAR(20) name_item VARCHAR(20) Amountused INT Performanced_number INT LOT_NO VARCHAR(20)");
+	//                   작업지시번호(INT)			  ,품번 INT				,품명       CHAR       ,사용수량 INT , 실적번호           INT, LOT NO
+
+	//작업지시 테이블 생성
+	_create("performance", "work_order_num VARCHAR(20) Product_num VARCHAR(20) Product_name VARCHAR(20) client VARCHAR(20)indicated_quantity INT performance_quantity INT performance_num INT LOT VARCHAR(20)");
+	//						, 작업지시번호 INT     , 품명          CHAR  , 품번    INT,고객			   , 
+
+	//자재사용현황(제품별) 테이블 생성
+	_create("Product_usage_status", "work_order_num VARCHAR(20) num_item VARCHAR(20) name_item VARCHAR(20) indicated_quantity INT LOT_NO VARCHAR(20) item_NAME VARCHAR(20) item_NUMBER VARCHAR(20) item_LOT VARCHAR(20) Amountused INT");
+	//								, 작업지시번호             , 품번               ,품명				  ,지시수량              ,lot번호   ,         제품사용품번 INT    ,   제품 사용품명       , 아이템 lot번호     ,사용수량              
+
+	// 재고테이블 서버에 생성
+	_create("Jaego", "num_jaego INT name_item VARCHAR(20) num_item VARCHAR(20) name_warehouse VARCHAR(20) num_warehouse INT LOT_number VARCHAR(20)  date INT  chogi_item INT ibgo_item INT chulgo_item INT jaego_item INT");
+
 }
 
 void Init_SampleData(void)
@@ -257,6 +282,114 @@ void Init_SampleData(void)
 
 	//print_data();
 	//printf("\n");
+	file_column_free();
+
+	//자재사용현황 샘플데이터 입력
+	if (initalizing("Work_Use") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	file_column_free();
+
+	//작업지시 샘플데이터 입력
+	if (initalizing("performance") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("'1000','1999','미들형본체','김철수',5,5,101,9") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("'2000','2999','레이저프린터','김똥개',10,10,102,'7'") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("'3000','3999','데스크탑PC','강산들',18,10,103,'8'") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	file_column_free();
+
+	//자재사용 제품별 샘플입력
+	if (initalizing("Product_usage_status") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	file_column_free();
+
+	// 재고테이블 샘플데이터 삽입
+	if (initalizing("Jaego") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("1, 'CPU', 'CP10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 10, 1, 0") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("2, 'HARD', 'HR10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("3, 'KEYBOARD', 'KE10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("4, 'MAINBOARD', 'MB10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("5, 'MONITOR', 'MO10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+	if (_insert("6, 'CASE', 'CA10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	//print_data();
+	//printf("\n");
+
 	file_column_free();
 	
 }

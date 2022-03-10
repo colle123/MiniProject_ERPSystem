@@ -209,6 +209,14 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	
 	// rest_num_in (입고이후 값)
 	rest_num_for_Warehousing_after = rest_num_for_Warehousing_before - num_InWarehouse;			//  (입고후 남은 발주량 = 입고전 남은 발주량 - 입고량)
+	if (rest_num_for_Warehousing_after < 0)
+	{
+		printf("\n === !!! 잘못된 입고수량을 입력하셨습니다. !!! === \n");
+		printf(" 입고수량은 남은 발주수량을 넘어설수 없습니다.\n");
+		printf(" - 입고수량 : %d\n", num_InWarehouse);
+		printf(" - 남은 발주수량: %d\n\n", rest_num_for_Warehousing_before);
+		return -1;
+	}
 																						
 
 
@@ -250,7 +258,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	itoa(rest_num_for_Warehousing_before, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
 	strcat(update_rest_num_BuyList_before, temp_int);				// 변환한 문자열을 Parameter_Insert에 붙임
 
-	itoa(rest_num_for_Warehousing_after, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
+	itoa(rest_num_for_Warehousing_after, temp_int, 10);			// 받아온 정보가 int형이므로 문자열로 형변환수행
 	strcat(update_rest_num_BuyList_after, temp_int);				// 변환한 문자열을 Parameter_Insert에 붙임
 
 	// 입고한 다음 발주정보의 남은 발주수량을 업데이트한다
@@ -305,12 +313,12 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	printf("\n");
 
 	printf("\n입고할 창고번호를 입력해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
-	scanf("%s", Select_WH);					// 창고번호를 입력받아 저장
-											// ex) 1999를 입력함 = [Select_WH = 1999](문자열임을 주의)
-
+	scanf("%s", Select_WH);							// 창고번호를 입력받아 저장
+													// ex) 1999를 입력함 = [Select_WH = 1999](문자열임을 주의)
+		
 	char select_num_warehouse[100] = "num_warehouse=";
-	strcat(select_num_warehouse, Select_WH);	// select함수에 조건으로 입력하기 위한 양식만들기
-												// ex) 여기까지 [select_num_warehouse] = [num_warehouse] = [1999]
+	strcat(select_num_warehouse, Select_WH);		// select함수에 조건으로 입력하기 위한 양식만들기
+													// ex) 여기까지 [select_num_warehouse] = [num_warehouse] = [1999]
 	if (_select(select_num_warehouse, "name_warehouse, num_warehouse", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
@@ -382,9 +390,9 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	}
 
 	// name_item
-	strcat(Parameter_Insert, "\'");							// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");						// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");							
+	strcat(Parameter_Insert, *(_result->_string_data));		
+	strcat(Parameter_Insert, "\', ");						
 
 	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', ]
 	
@@ -396,9 +404,9 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, ]
 
 	// LOT_number
-	strcat(Parameter_Insert, "\'");										// 문자열의 경우 앞뒤로 작은따옴표 필요
-	strcat(Parameter_Insert, *(_result->next->next->_string_data));		// 받아온 결과를 저장
-	strcat(Parameter_Insert, "\', ");									// 문자열의 경우 앞뒤로 작은따옴표 필요 + 끝났음을 의미하는 띄어쓰기
+	strcat(Parameter_Insert, "\'");										
+	strcat(Parameter_Insert, *(_result->next->next->_string_data));		
+	strcat(Parameter_Insert, "\', ");									
 	
 	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', ]
 	
@@ -408,14 +416,14 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 
 
 	// 날짜입력 - 자동계산
-	itoa(today_date, temp_int, 10);		// 받아온 정보가 int형이므로 문자열로 형변환수행
-	strcat(Parameter_Insert, temp_int);						// 변환한 문자열을 Parameter_Insert에 붙임
-	strcat(Parameter_Insert, ", ");							// 끝났음을 의미하는 띄어쓰기
+	itoa(today_date, temp_int, 10);		
+	strcat(Parameter_Insert, temp_int);						
+	strcat(Parameter_Insert, ", ");							
 
 	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', 20220304, ]
 
 	// 담당자입력
-	if (initalizing("Person_responsibe") == -1) {		// 담당자파일(Person_responsibe)열기
+	if (initalizing("Person_responsibe") == -1) {		
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -426,7 +434,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	printf("\n");
 
 	printf("\n담당자번호를 입력해주세요 : ");		// 출력된 담당자목록에서 원하는 담당자번호를 보고 입력
-	scanf("%s", Select_Person);				// 담당자번호를 입력받아 저장
+	scanf("%s", Select_Person);					// 담당자번호를 입력받아 저장
 
 	char select_num_person[100] = "num_responsible=";
 	strcat(select_num_person, Select_Person);
@@ -446,12 +454,12 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 		return -1;
 	}
 
+	// 담당자 이름
 	strcat(Parameter_Insert, "\'");							
 	strcat(Parameter_Insert, *(_result->_string_data));		
 	strcat(Parameter_Insert, "\', ");						
 
-															// ex) 여기까지 [Parameter_Insert = 'warehouse1' ]
-
+	// 담당자 번호
 	itoa(*(_result->next->_int_data), temp_int, 10);		
 	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");							
@@ -473,6 +481,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");							
 
+	// 단가
 	int bill = 0;
 	printf("단가를 입력하세요 : ");
 	scanf("%d", &bill);
@@ -483,16 +492,19 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 
 	int pay_in = bill * num_InWarehouse;
 
+	// 공급가
 	itoa(pay_in, temp_int, 10);					
 	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");						
 
 	int tax = pay_in / 10;
 
+	// 세금
 	itoa(tax, temp_int, 10);					
 	strcat(Parameter_Insert, temp_int);						
 	strcat(Parameter_Insert, ", ");							
 
+	// 합계액
 	int pay_sum = pay_in + tax;
 	itoa(pay_sum, temp_int, 10);					
 	strcat(Parameter_Insert, temp_int);						
@@ -523,14 +535,8 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	file_column_free();		// 입고파일(In_WareHouse) 닫기
 }
 
-void print_Warehousing_state(void)
+void print_Warehousing_state(void)		// 입고현황출력
 {
-	/*result* _result;
-	result* find;
-	int result_count;*/
-
-	/*while (1)
-	{*/
 		int Select_Sort = 0;
 		if (initalizing("In_WareHouse") == -1) {
 			printf("%s\n", err_msg);
@@ -542,48 +548,63 @@ void print_Warehousing_state(void)
 		print_data();
 		printf("\n\n");
 
-	//	printf(" 입고현황메뉴입니다.\n\n");
-	//	printf("1. 품목별\t2. 일자별\t3. 뒤로가기\n");
-	//	printf(" 원하시는 메뉴를 선택해주세요. : ");
-	//	scanf("%d", &Select_Sort);
-	//	file_column_free();
-
-	//	if (Select_Sort == 1)			// 품목별	
-	//	{
-	//		if (_select("*", "num_item", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
-	//			printf("%s\n", err_msg);
-
-	//			file_column_free();
-	//			return -1;
-	//		}
-
-
-	//		if ((result_count = recv_result(&_result, select_result_str)) == -1) {		// select로 받아온 정보를 _result 포인트 구조체에 멤버로 저장함
-	//			printf("%s\n", err_msg);
-
-	//			file_column_free();
-	//			return -1;
-	//		}
-
-	//		while (1)
-	//		{
-	//			while (1)
-	//			{
-	//				if(_result->_int_data == )
-	//			}
-	//		}
-
-	//	}
-
-	//	else if (Select_Sort == 2)		// 일자별	
-	//	{
-
-	//	}
-
-	//	else if (Select_Sort == 3)		// 뒤로가기
-	//	{
-	//		break;
-	//	}
-	//}
 	file_column_free();
+}
+
+void delete_Warehousing(void)
+{
+	result* _result;
+	result* find;
+	int result_count;
+
+	char Select_del_Warehousing[10];
+
+	if (initalizing("In_WareHouse") == -1) { // 입고파일(In_WareHouse) 열기
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	print_data();
+	printf("\n");
+
+	printf("\n취소할 입고번호를 입력해주세요 : ");		// 출력된 품목목록에서 원하는 품목번호를 보고 입력
+	scanf("%s", Select_del_Warehousing);
+
+	char select_num_Warehousing[100] = "num_In_WareHouse=";
+	strcat(select_num_Warehousing, Select_del_Warehousing);
+	printf("%s", select_num_Warehousing);
+
+	//if (_select(select_num_Warehousing, ", num_responsible", &select_result_str) == -1) {
+	//	printf("%s\n", err_msg);
+
+	//	file_column_free();
+	//	return -1;
+	//}
+
+
+	//if ((result_count = recv_result(&_result, select_result_str)) == -1) {		// select로 받아온 정보를 _result 포인트 구조체에 멤버로 저장함
+	//	printf("%s\n", err_msg);
+
+	//	file_column_free();
+	//	return -1;
+	//}
+
+
+	if (_delete(select_num_Warehousing) == -1) // 만든 양식을 토대로 품목목록에서 내부 칼럼정보를 선택해 받아옴
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	print_data();
+
+	printf("\n==========================================================================\n");
+
+	printf("\n\n");
+	file_column_free();
+
 }
