@@ -94,14 +94,14 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	print_data();				// 발주리스트 목록출력
 	printf("\n");
 
-	printf("\n정보를 불러올 발주번호를 선택해주세요 : ");			// 출력된 발주목록에서 처리할 발주번호를 입력
+	printf("\n정보를 불러올 발주번호를 입력해주세요 : ");			// 출력된 발주목록에서 처리할 발주번호를 입력
 	scanf("%s", Select_BuyingList_num);				// 입력한 발주번호를 저장
 
 	char select_num_BuyList[100] = "num_BuyList=";			// select함수를 사용하기 위해 조건에 넣을 문자열변수선언
 	strcat(select_num_BuyList, Select_BuyingList_num);		// 생성한 문자열에 입력한 발주번호를 넣어 양식을 완성
 
 	// 완성한 양식을 조건으로 발주리스트에서 [품목명/번호/루트넘버, 입고날짜, 담당자이름/번호, 발주수량, 단가, 공급가액, 세금, 합계액, 남은 발주수량] 을 받아옴 
-	if (_select(select_num_BuyList, "name_item, num_item, LOT_number, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+	if (_select(select_num_BuyList, "item_NAME, item_NUMBER, item_LOT, date, name_responsible, num_responsible, num_buy, bill, pay_in, tax, pay_sum, rest_num_in", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -263,7 +263,7 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	}
 
 	print_data();
-	printf("\n 입고되지 않은 남은 발주 수량은 %d개입니다.\n", rest_num_for_Warehousing_after);
+	printf("\n 입고되지 않은 남은 발주 수량은 < %d > 개입니다.\n", rest_num_for_Warehousing_after);
 	num++;
 	file_column_free();
 
@@ -350,7 +350,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 
 
 	//품목선택
-	if (initalizing("item") == -1) {  // 품목파일(item) 열기
+	if (initalizing("ITEM") == -1) {  // 품목파일(item) 열기
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -360,13 +360,13 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	print_data();		// 품목목록 출력
 	printf("\n");
 
-	printf("\n품목을 선택해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
+	printf("\n품목번호를 입력해주세요 : ");		// 출력된 창고목록에서 원하는 창고번호를 보고 입력
 	scanf("%s", Select_Item);				// 창고번호를 입력받아 저장
 
-	char select_num_item[100] = "num_item=";
+	char select_num_item[100] = "item_NUMBER=";
 	strcat(select_num_item, Select_Item);
 
-	if (_select(select_num_item, "name_item, num_item, LOT_number", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+	if (_select(select_num_item, "item_NAME, item_NUMBER, item_LOT", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -415,7 +415,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	// 여기까지 [Parameter_Insert = 'warehouse1', 1999, 'SampleItem1', 19999, 'RA0001', 20220304, ]
 
 	// 담당자입력
-	if (initalizing("D:\\1_IoT\\Server_test\\test\\Person_responsibe") == -1) {		// 담당자파일(Person_responsibe)열기
+	if (initalizing("Person_responsibe") == -1) {		// 담당자파일(Person_responsibe)열기
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -425,7 +425,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	print_data();		// 담당자목록 출력
 	printf("\n");
 
-	printf("\n담당자를 선택해주세요 : ");		// 출력된 담당자목록에서 원하는 담당자번호를 보고 입력
+	printf("\n담당자번호를 입력해주세요 : ");		// 출력된 담당자목록에서 원하는 담당자번호를 보고 입력
 	scanf("%s", Select_Person);				// 담당자번호를 입력받아 저장
 
 	char select_num_person[100] = "num_responsible=";

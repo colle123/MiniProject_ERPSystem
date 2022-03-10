@@ -12,7 +12,7 @@ void Create_File(void)
 	
 	// 발주테이블 서버에 생성
 	_create("Buy_item", "num_BuyList INT name_item VARCHAR(20) num_item VARCHAR(20) LOT_number VARCHAR(20) date INT name_responsible VARCHAR(20) num_responsible INT num_buy INT bill INT pay_in INT tax INT pay_sum INT rest_num_in INT");
-	//						발주번호			품목명				품번			품목로트넘버				날짜			담당자명						담당자번호		발주수량		단가		공급가액		세금			합계액			남은발주수량
+	//						발주번호			품목명				품번					품목로트넘버				날짜			담당자명						담당자번호		발주수량		단가		공급가액		세금			합계액			남은발주수량
 	
 	// 거래처테이블 서버에 생성
 	_create("Buy_company", "name_buy_company VARCHAR(20) num_buy_company INT");
@@ -23,8 +23,8 @@ void Create_File(void)
 	//								담당자명							담당자번호
 	
 	// 품목테이블 서버에 생성
-	_create("item", "name_item VARCHAR(20) num_item VARCHAR(20) State VARCHAR(20) Daily_Output INT LOT_number VARCHAR(20)");
-	//				품목명					품번			계정상태				일일생산량		폼목로트넘버
+	_create("ITEM", "item_NAME VARCHAR(20) item_NUMBER VARCHAR(20) item_TYPE VARCHAR(20) item_GOAL INT item_LOT VARCHAR(20) item_SirealNUMBER VARCHAR(20)");
+	//				품목명					품번						계정상태				일일생산량		폼목로트넘버				시리얼넘버
 	
 	// 창고고테이블 서버에 생성
 	_create("WareHouse", "name_warehouse VARCHAR(30) num_warehouse INT");
@@ -41,7 +41,7 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("1, 'Warehouse1', 1999, 'SampleItem1', 19999, 'RA00001', 20220305, 'SamplePerson1', 199, 100, 990, 99000, 9900, 108900") == -1)
+	if (_insert("1, 'Warehouse1', 1999, 'CPU','CP10', 'CP20220308', 20220305, 'SamplePerson1', 199, 100, 990, 99000, 9900, 108900") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -49,7 +49,7 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("2, 'Warehouse2', 2999, 'SampleItem2', 29999, 'SU00001', 20220307,  'SamplePerson1', 199, 20, 1000, 20000, 2000, 22000") == -1)
+	if (_insert("2, 'Warehouse2', 2999, 'HARD', 'HR10', 'HR20220308', 20220307,  'SamplePerson1', 199, 20, 1000, 20000, 2000, 22000") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -57,7 +57,7 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("3, 'Warehouse1', 1999, 'SampleItem1', 19999, 'PR00001', 20220301,  'SamplePerson1', 199, 100, 100, 10000, 1000, 11000") == -1)
+	if (_insert("3, 'Warehouse1', 1999, 'MAINBORAD', 'MB10', 'MB20220308', 20220301, 'SamplePerson1', 199, 100, 100, 10000, 1000, 11000") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -80,21 +80,21 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("1, 'SampleItem1', 19999, RA00001, 20220304, 'SamplePerson1', 199, 100, 1000, 10000, 1000, 11000, 100") == -1)
+	if (_insert("1, 'CPU','CP10','CP20220308', 20220304, 'SamplePerson1', 199, 100, 1000, 10000, 1000, 11000, 100") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("2, 'SampleItem2', 29999, SU00001, 20220304, 'SamplePerson2', 299, 200, 2000, 40000, 4000, 44000, 100") == -1)
+	if (_insert("2, 'MONITOR', 'MO10', 'MO20220308', 20220304, 'SamplePerson2', 299, 200, 2000, 40000, 4000, 44000, 100") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("3, 'SampleItem3', 39999, PR00001, 20220304, 'SamplePerson1', 199, 300, 3000, 90000, 9000, 99000, 100") == -1)
+	if (_insert("3, 'CASE', 'CA10','CA20220308', 20220304, 'SamplePerson1', 199, 300, 3000, 90000, 9000, 99000, 100") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -169,24 +169,48 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("'SampleItem1', 19999, RawMaterial, 0, RA00001") == -1)
-	{
+	if (_insert("'CPU','CP10','meterial',100,'CP20220308','C19999P19'") == -1) {
+		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
 
-	if (_insert("'SampleItem2', 29999, Subsidiary, 0, SU00001") == -1)
-	{
+	if (_insert("'HARD','HR10','meterial',100,'HR20220308','H1999R19'") == -1) {
+		//1.물품명 hard 2.물품번호 hr10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 hr20220308 6.시리얼 번호 h1999r19
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
 
-	if (_insert("'SampleItem3', 39999, Product, 100, PR00001") == -1)
-	{
+	if (_insert("'KEYBORAD','KE10','submeterial',100,'KE20220308','K1999E19'") == -1) {
+		//1.물품명 keyborad 2.물품번호 ke10 3.물품계정구분 submeterial 4.일생산량 100 5.LOT번호 ke20220308 6.시리얼 번호 k1999e19
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'MAINBORAD','MB10','meterial',100,'MB20220308','M1999B19'") == -1) {
+		//1.물품명 mainborad 2.물품번호 mb10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 mb20220308 6.시리얼 번호 m1999b19
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'MONITOR','MO10','submeterial',100,'MO20220308','M1999O19'") == -1) {
+		//1.물품명 monitor 2.물품번호 mo10 3.물품계정구분 submeterial 4.일생산량 100 5.LOT번호 mo20220308 6.시리얼 번호 m1999o19
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'CASE','CA10','meterial',100,'CA20220308','C1999A19'") == -1) {
+		//1.물품명 case 2.물품번호 ca10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 ca20220308 6.시리얼 번호 c1999a19
 		printf("%s\n", err_msg);
 
 		file_column_free();

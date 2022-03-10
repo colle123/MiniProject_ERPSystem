@@ -37,7 +37,7 @@ void insertOrderData(void)		// 발주 등록
 	printf("\n\n");
 
 	//품목선택
-	if (initalizing("item") == -1) {
+	if (initalizing("ITEM") == -1) {
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -47,13 +47,13 @@ void insertOrderData(void)		// 발주 등록
 	print_data();		// 품목목록 출력
 	printf("\n");
 
-	printf("\n품목 번호를 선택해주세요 : ");		// 출력된 품목목록에서 원하는 품목번호를 보고 입력
+	printf("\n품목 번호를 입력해주세요 : ");		// 출력된 품목목록에서 원하는 품목번호를 보고 입력
 	scanf("%s", Select_Item);						// 품목번호를 입력받아 저장
 
-	char select_num_item[100] = "num_item=";
+	char select_num_item[100] = "item_NUMBER=";
 	strcat(select_num_item, Select_Item);
 
-	if (_select(select_num_item, "name_item, num_item, LOT_number", &select_result_str) == -1) // 만든 양식을 토대로 품목목록에서 내부 칼럼정보를 선택해 받아옴
+	if (_select(select_num_item, "item_NAME, item_NUMBER, item_LOT", &select_result_str) == -1) // 만든 양식을 토대로 품목목록에서 내부 칼럼정보를 선택해 받아옴
 	{	
 		printf("%s\n", err_msg);
 
@@ -109,7 +109,7 @@ void insertOrderData(void)		// 발주 등록
 	print_data();									// 담당자목록 출력
 	printf("\n");
 
-	printf("\n담당자 번호를 선택해주세요 : ");		// 출력된 담당자목록에서 원하는 담당자를 보고 입력
+	printf("\n담당자 번호를 입력해주세요 : ");		    // 출력된 담당자목록에서 원하는 담당자번호 를 보고 입력
 	scanf("%s", Select_Person);						// 담당자 번호를 입력받아 저장
 
 	char select_num_person[100] = "num_responsible=";
@@ -242,7 +242,7 @@ void deleteOrderData(void)
 	print_data();
 	printf("\n");
 
-	printf("\n취소할 발주 번호를 선택해주세요 : ");		// 출력된 품목목록에서 원하는 품목번호를 보고 입력
+	printf("\n취소할 발주 번호를 입력해주세요 : ");		// 출력된 품목목록에서 원하는 품목번호를 보고 입력
 	scanf("%s", Select_order);
 
 	char select_num_order[100] = "num_BuyList=";
