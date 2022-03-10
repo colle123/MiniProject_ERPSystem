@@ -42,12 +42,27 @@
     <ClCompile Include="source\MiniProject_ERP_jago.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_order.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_jago.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_Work.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="source\MiniProject_ERP_1struct.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

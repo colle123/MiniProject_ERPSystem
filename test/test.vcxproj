@@ -143,7 +143,11 @@
     <ClCompile Include="source\client.c" />
     <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c" />
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
+    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_jago.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_order.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Warehousing.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_Work.c" />
     <ClCompile Include="source\MiniProject_ERP_InitSampleData.c" />
     <ClCompile Include="source\MiniProject_ERP_jago.c" />
     <ClCompile Include="source\MiniProject_ERP_order.c" />
@@ -152,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h" />
+    <ClInclude Include="source\MiniProject_ERP_1struct.h" />
     <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "local.h"
 #include <time.h>
-#include"MiniProject_ERP_struct_warehousing.h"
+#include"MiniProject_ERP_1struct.h"
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
 

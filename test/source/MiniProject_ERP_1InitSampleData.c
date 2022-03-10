@@ -1,5 +1,5 @@
 #include "local.h"
-#include"MiniProject_ERP_struct_warehousing.h"
+#include"MiniProject_ERP_1struct.h"
 
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
@@ -302,21 +302,21 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'1000','1999','미들형본체','김철수',5,5,101,9") == -1)
+	if (_insert("'1000','CA10','미들형본체','김철수',5,5,101,9") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'2000','2999','레이저프린터','김똥개',10,10,102,'7'") == -1)
+	if (_insert("'2000','PR10','레이저프린터','김똥개',10,10,102,'7'") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'3000','3999','데스크탑PC','강산들',18,10,103,'8'") == -1)
+	if (_insert("'3000','PC10','데스크탑PC','강산들',18,10,103,'8'") == -1)
 	{
 		printf("%s\n", err_msg);
 

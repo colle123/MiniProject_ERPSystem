@@ -2,7 +2,7 @@
 #include<time.h>
 #include<stdbool.h>
 #include "local.h"
-#include "MiniProject_ERP_struct_warehousing.h"
+#include "MiniProject_ERP_1struct.h"
 #define True >=1
 #define False 0
 
