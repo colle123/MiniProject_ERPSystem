@@ -36,15 +36,16 @@ int main(void)
 	{
 		int Select_main_menu = 0;
 
-		printf(" 원하는 메뉴선택\n");
-		printf("1. 생산   2. 입고/발주  3. 자재 \n");
+		printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+		printf("\t1. 생산\n\t2. 입고/발주\n\t3. 자재\n\t4.프로그램 종료\n");
 		scanf("%d", &Select_main_menu);
 
 		if (Select_main_menu == 1)
 		{
+			system("cls");
 			int Select_make_menu = 0;
-			printf(" 원하는 메뉴선택\n");
-			printf("1. 자재사용관리   2. 생산실적 및 생산품입고  3. 뒤로가기 \n");
+			printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+			printf("\t1. 자재사용관리\n\t2. 생산실적 및 생산품입고\n\t3. 뒤로가기 \n");
 			scanf("%d", &Select_make_menu);
 
 			if (Select_make_menu == 1)
@@ -315,7 +316,7 @@ int main(void)
 						printf("======================================\n");
 						printf("발주하러가자이\n");
 						printf("======================================\n");
-						ibgo_jaego_print();
+						insertOrderData();
 					}
 					//else
 					//{
@@ -328,8 +329,15 @@ int main(void)
 				default:
 					break;
 				}
+				break;
 			}
 		}
+		else if (Select_main_menu == 4)	// 종료
+		{
+		exit(-1);
+		}
+
+ 
 		
 	}
 

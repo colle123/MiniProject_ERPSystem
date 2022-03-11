@@ -617,7 +617,7 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	itoa(num_InWarehouse, temp_int, 10);
 	strcat(update_jago_from_ibgo, temp_int);
 
-
+	
 	if (_update(item_number, update_jago_from_ibgo) == -1)
 	{
 		printf("%s\n", err_msg);

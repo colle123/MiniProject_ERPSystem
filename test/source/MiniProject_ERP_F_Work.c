@@ -5,11 +5,6 @@
 
 void By_work(void)
 {
-	char* values = "NULL, 800, 'q', 69.11212 , 4215.134555666777";
-	char* conditional = "TP='q'";
-	char* set = "TP='c'";
-	char* select_column = "code, number, TP, FLT, DBL";
-
 	result* _result = NULL;
 	result* find;
 	int result_count = 0;
@@ -342,7 +337,7 @@ void Del(void)
 		printf("삭제 할 작업지시번호를 입력해주세요");
 		scanf("%s", delnum);
 
-		char conditional[26];
+		char conditional[100];
 		sprintf(conditional, "Work_Instruction_Number='%s'", delnum);		// 조건문
 
 		if (_delete(conditional) == -1)
@@ -353,10 +348,13 @@ void Del(void)
 			return -1;
 		}
 		print_data();
+
 		printf("\n");
+
 		file_column_free();
 
 	}
+
 	else if (submenu == 2)
 	{
 		char delnum[20] = { '\0' };
@@ -369,10 +367,11 @@ void Del(void)
 			return -1;
 		}
 		print_data();
+
 		printf("삭제 할 작업지시번호를 입력해주세요");
 		scanf("%s", delnum);
 
-		char conditional[26];
+		char conditional[100];
 		sprintf(conditional, "Work_Instruction_Number='%s'", delnum);		// 조건문
 
 		if (_delete(conditional) == -1)
@@ -382,6 +381,7 @@ void Del(void)
 			file_column_free();
 			return -1;
 		}
+
 		print_data();
 		printf("\n");
 		file_column_free();
