@@ -435,7 +435,7 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("1, 'CPU', 'CP10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 10, 1, 0") == -1)
+	if (_insert("1, 'CPU', 'CP10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -443,35 +443,35 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("2, 'HARD', 'HR10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	if (_insert("2, 'HARD', 'HR10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("3, 'KEYBOARD', 'KE10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	if (_insert("3, 'KEYBOARD', 'KE10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("4, 'MAINBOARD', 'MB10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	if (_insert("4, 'MAINBOARD', 'MB10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("5, 'MONITOR', 'MO10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	if (_insert("5, 'MONITOR', 'MO10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("6, 'CASE', 'CA10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
+	if (_insert("6, 'CASE', 'CA10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 

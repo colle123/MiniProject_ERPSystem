@@ -77,6 +77,7 @@ int main(void)
 							{
 								system("cls");
 								By_work();
+								choijong_jaego_print_all();
 								system("pause");
 							}
 
@@ -84,6 +85,7 @@ int main(void)
 							{
 								system("cls");
 								Product();
+								choijong_jaego_print_all();
 								system("pause");
 
 							}
