@@ -47,7 +47,7 @@ int main(void)
 				system("cls");
 				int Select_make_menu = 0;
 				printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-				printf("\t1. 자재사용관리\n\t2. 생산실적 및 생산품입고\n\t3. 생산계획 및 작업지시등록 \n\t4. 뒤로가기\n");
+				printf("\t1. 자재사용관리\n\t2. 작업실적 및 생산품입고\n\t3. 생산계획 및 작업지시등록 \n\t4. 뒤로가기\n");
 				scanf("%d", &Select_make_menu);
 
 				if (Select_make_menu == 1)
@@ -58,7 +58,7 @@ int main(void)
 						int memunum, menu = 0;
 
 						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-						printf("\t1. 조회\n\t2. 사용현황등록\n\t3. 삭제\n\t4. 뒤로가기\n");
+						printf("\t1. 자재사용현황조회\n\t2. 자재사용현황등록\n\t3. 삭제\n\t4. 뒤로가기\n");
 						scanf("%d", &menu);
 
 						if (menu == 1)

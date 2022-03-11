@@ -177,10 +177,7 @@ void choijong_jaego_print(char n[100])
         return -1;
     }
 
-
-    strcat(select_num_chulgoList, "\'");
-    strcat(select_num_chulgoList, n);
-    strcat(select_num_chulgoList, "\'");
+ 
 
     if (_select(select_num_chulgoList, "Amountused", &select_result_str) == -1) {
         printf("%s\n", err_msg);
