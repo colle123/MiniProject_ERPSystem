@@ -35,25 +35,28 @@ void Create_File(void)
 	//											품번					품명					일 생산량			순서			작업예정일	수량
 
 	//<작업지시등록>
-	_create("Work_Order_Registration", "Due_Date INT Quantity INT Work_Instruction_Number INT LOT VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20)");
+	_create("Work_Order_Registration", "Due_Date INT Quantity INT Work_Instruction_Number  VARCHAR(20) LOT VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20)");
 	//Work Instruction Number에 (제품구분+(공정)+날짜+번호) 들어감
 	//									납기일		 지시수량		작업지시번호					LOT				품번						품명				고객
 
 	// 자제사용현황(작업별) 테이블 생성
-	_create("Work_Use", "Performance_number VARCHAR(20) num_item VARCHAR(20) name_item VARCHAR(20) Amountused INT Performanced_number INT LOT_NO VARCHAR(20)");
-	//                   작업지시번호(INT)			  ,품번 INT				,품명       CHAR       ,사용수량 INT , 실적번호           INT, LOT NO
+	_create("Work_Use", "Work_Instruction_Number VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Amountused INT Performanced_number INT LOT_NO VARCHAR(20)");
+	//                   작업지시번호		        ,품번 INT				,품명       CHAR       ,사용수량 INT , 실적번호           INT, LOT NO
 
-	//작업지시 테이블 생성
-	_create("performance", "work_order_num VARCHAR(20) Product_num VARCHAR(20) Product_name VARCHAR(20) client VARCHAR(20)indicated_quantity INT performance_quantity INT performance_num INT LOT VARCHAR(20)");
-	//						, 작업지시번호 INT     , 품명          CHAR  , 품번    INT,고객			   , 
+
+	_create("performance", "Work_Instruction_Number VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20) Quantity INT performance_quantity INT performance_num VARCHAR(20) LOT VARCHAR(20)");
+	//work_order_num(작업지시번호) Item_Number(품번) Name(품명) Customer(고객) Quantity(지시수량) performance_quantity(실적수량) performance_num(실적번호) LOT(LOT)
+
 
 	//자재사용현황(제품별) 테이블 생성
-	_create("Product_usage_status", "work_order_num VARCHAR(20) num_item VARCHAR(20) name_item VARCHAR(20) indicated_quantity INT LOT_NO VARCHAR(20) item_NAME VARCHAR(20) item_NUMBER VARCHAR(20) item_LOT VARCHAR(20) Amountused INT");
-	//								, 작업지시번호             , 품번               ,품명				  ,지시수량              ,lot번호   ,         제품사용품번 INT    ,   제품 사용품명       , 아이템 lot번호     ,사용수량              
+	_create("Product_usage_status", "Work_Instruction_Number VARCHAR(20) Name VARCHAR(20) Item_Number VARCHAR(20) Quantity INT LOT_NO VARCHAR(20) item_NAME VARCHAR(20) item_NUMBER VARCHAR(20) item_LOT VARCHAR(20) Amountused INT");
+	//								, 작업지시번호             , 품번               ,품명				          ,지시수량    ,lot번호   ,         제품사용품번 INT    ,   제품 사용품명       , 아이템 lot번호     ,사용수량              
 
 	// 재고테이블 서버에 생성
 	_create("Jaego", "num_jaego INT name_item VARCHAR(20) num_item VARCHAR(20) name_warehouse VARCHAR(20) num_warehouse INT LOT_number VARCHAR(20)  date INT  chogi_item INT ibgo_item INT chulgo_item INT jaego_item INT");
 
+	_create("product_warehous", "Work_Instruction_Number VARCHAR(20) performance_num VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) performance_quantity INT Customer VARCHAR(20) LOT VARCHAR(20) stock_num VARCHAR(20) stock_date INT stock_warehouse VARCHAR(20) stock_location VARCHAR(20) stock_count INT");
+	//Work_Instruction_Number(작업지시번호) performance_num(실적번호) Product_num(품번) Name(품명) performance_quantity(실적수량) Customer(고객) LOT stock_num(입고번호) stock_date(입고일자) stock_warehouse(입고창고) stock_location(입고장소) stock_count(입고수량) 
 }
 
 void Init_SampleData(void)
@@ -302,21 +305,21 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'1000','CA10','미들형본체','김철수',5,5,101,9") == -1)
+	if (_insert("'1000', 'CA10', '미들형본체', '김철수', 5 , 5, 101, '9'") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'2000','PR10','레이저프린터','김똥개',10,10,102,'7'") == -1)
+	if (_insert("'2000', 'PR10', '레이저프린터', '김똥개', 10, 10, 102, '7'") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'3000','PC10','데스크탑PC','강산들',18,10,103,'8'") == -1)
+	if (_insert("'3000', 'PC10', '데스크탑PC', '강산들', 18, 10, 103, '8'") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -390,6 +393,31 @@ void Init_SampleData(void)
 	//print_data();
 	//printf("\n");
 
+	file_column_free();
+
+	char* values1 = "20210910, 15, 'W02109000002', NULL, 'PC02', '데스크탑PC', '사는회사'";
+	char* values2 = "20210325, 10, 'W02109000007', NULL, 'PC04', '데스크탑PC2', '우리회사'";
+
+	if (initalizing("Work_Order_Registration") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert(values1) == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert(values2) == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
 	file_column_free();
 	
 }

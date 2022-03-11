@@ -42,43 +42,91 @@ int main(void)
 
 		if (Select_main_menu == 1)
 		{
-			while (1)
+			int Select_make_menu = 0;
+			printf(" 원하는 메뉴선택\n");
+			printf("1. 자재사용관리   2. 생산실적 및 생산품입고  3. 뒤로가기 \n");
+			scanf("%d", &Select_make_menu);
+
+			if (Select_make_menu == 1)
 			{
-				int memunum, menu = 0;
-
-				printf("(1)조회(2)사용현황등록(3)삭제(4)나가기\n");
-				scanf("%d", &menu);
-
-				if (menu == 1)
+				while (1)
 				{
-					Print_use();
-				}
-				else if (menu == 2)
-				{
-					printf("(1)작업별자재사용현황\n(2)제품별자재사용현황\n");
-					scanf("%d", &memunum);
+					system("cls");
+					int memunum, menu = 0;
 
-					if (memunum == 1)	// 작업지시부분 오픈
+					printf("\n=======================================메뉴 선택===============================================\n");
+					printf("                      (1)조회(2)사용현황등록(3)삭제(4)나가기\n");
+					printf("\n==================================번호를 입력해주세요==========================================\n");
+					scanf("%d", &menu);
+
+					if (menu == 1)
 					{
-						By_work();
+						system("cls");
+						Print_use();
+					}
+					else if (menu == 2)
+					{
+						system("cls");
+						printf("\n=======================================메뉴 선택===============================================\n");
+						printf("                       (1)작업별자재사용현황(2)제품별자재사용현황\n");
+						printf("\n==================================번호를 입력해주세요==========================================\n");
+						scanf("%d", &memunum);
+
+						if (memunum == 1)	// 작업지시부분 오픈
+						{
+							system("cls");
+							By_work();
+							system("pause");
+						}
+
+						else if (memunum == 2)
+						{
+							system("cls");
+							Product();
+							system("pause");
+
+						}
+					}
+					else if (menu == 3)
+					{
+						system("cls");
+						Del();
+						system("pause");
+					}
+					else if (menu == 4)
+					{
+						break;
 					}
 
-					else if (memunum == 2)
-					{
-						Product();
-
-					}
 				}
-				else if (menu == 3)
-				{
-					Del();
-				}
-				else if (menu == 4)
-				{
-					exit(-1);
-				}
-
 			}
+			else if (Select_make_menu == 2)
+			{
+				int select;
+				while (1) {
+					printf("(1)작업실적등록 (2)생산품창고입고처리 : ");
+					scanf("%d", &select);
+					switch (select) {
+					case 1:
+						system("cls");
+						Registration_work_performance();
+						break;
+					case 2: 
+						system("cls");
+						Production_warehousing();
+						break;
+					default:
+						break;
+					}
+					break;
+				}
+			}
+
+			else if (Select_make_menu == 3)
+			{
+				break;
+			}
+
 		}
 
 		else if (Select_main_menu == 2)
@@ -104,6 +152,7 @@ int main(void)
 					{
 						system("cls");
 						insertOrderData();
+						system("pause");
 					}
 					else if (Select_balju == 2)// 1-2.발주조회
 					{
@@ -116,6 +165,7 @@ int main(void)
 					{
 						system("cls");
 						deleteOrderData();
+						system("pause");
 					}
 					else if (Select_balju == 4) // 1-4. 뒤로가기
 					{
@@ -146,12 +196,14 @@ int main(void)
 					{
 						system("cls");
 						Insert_WarehousingData();
+						system("pause");
 					}
 
 					else if (Select_ibgo == 2)	// 2-2.발주입고
 					{
 						system("cls");
 						Insert_WarehousingData_from_BuyingList();
+						system("pause");
 					}
 
 					else if (Select_ibgo == 3)	// 2-3.입고현황
@@ -199,79 +251,86 @@ int main(void)
 			}
 		}
 
-		else if (Select_main_menu == 3)
+		else if (Select_main_menu == 3)	// 자재
 		{
-		while (1)
-		{
-			int option1, option2, option3;
-
-			system("cls");
-
-
-			printf("\t재고관리\n");
-			printf("1.현 재고 현황 2.재고 이동 \n");
-			printf("======================================\n");
-
-			scanf("%d", &option1);
-
-			system("cls");
-
-			switch (option1)
+			while (1)
 			{
+				int option1, option2, option3;
 
-			case 1:
-				printf("\t현 재고 현황\n");
+				system("cls");
+
+
+				printf("\t재고관리\n");
+				printf("1.현 재고 현황 2.재고 이동 \n");
 				printf("======================================\n");
-				jaego_print();
-				break;
 
-			case 2:
-				printf("\t재고 사용하기 \n");
-				printf("======================================\n");
-				//사용할 재고 입력 
-				// (모든 조건 검색해서 하나라도 있으면 생산하러가고 갯수 하나씩 줄이기)
-				//재고 0 이면 발주로 보내고 입고 받은 재고번호 받아서 update
+				scanf("%d", &option1);
 
+				system("cls");
 
-				 //jogun();
-
-				//if (jaego_item <= 0)
-				//{
-				//	printf("발주하러 가자이\n");
-				//	printf("\n");
-
-				//ibgo_jaego_print();
-
-				//	printf("\n");
-				//	printf("\n");
-				//	break;
-				//}
-
-				int a = chulgo_jaego_print();
-				if (a > 0)
+				switch (option1)
 				{
-					printf("생산하러가자이\n");
-					system("pause");
 
+				case 1:
+					printf("\t현 재고 현황\n");
+					printf("======================================\n");
+					jaego_print();
+					break;
+
+				case 2:
+					printf("\t재고 사용하기 \n");
+					printf("======================================\n");
+					//사용할 재고 입력 
+					// (모든 조건 검색해서 하나라도 있으면 생산하러가고 갯수 하나씩 줄이기)
+					//재고 0 이면 발주로 보내고 입고 받은 재고번호 받아서 update
+
+
+
+
+					 //jogun();
+
+					//if (jaego_item <= 0)
+					//{
+					//	printf("발주하러 가자이\n");
+					//	printf("\n");
+
+					//ibgo_jaego_print();
+
+					//	printf("\n");
+					//	printf("\n");
+					//	break;
+					//}
+
+					int a = chulgo_jaego_print();
+					if (a > 0)
+					{
+						printf("======================================\n");
+						printf("생산하러가자이\n");
+						printf("======================================\n");
+						system("pause");
+
+					}
+					else
+					{
+						printf("======================================\n");
+						printf("발주하러가자이\n");
+						printf("======================================\n");
+						ibgo_jaego_print();
+					}
+					//else
+					//{
+					//	printf("\n");
+					//	printf("생산하러 가자이\n");
+					//	printf("\n");
+
+					break;
+
+				default:
+					break;
 				}
-				else
-				{
-					printf("%d개 발주하러가자이\n", a);
-					ibgo_jaego_print();
-				}
-				//else
-				//{
-				//	printf("\n");
-				//	printf("생산하러 가자이\n");
-				//	printf("\n");
-
-				break;
-
-			default:
-				break;
 			}
 		}
-		}
+		
 	}
 
 	file_column_free();

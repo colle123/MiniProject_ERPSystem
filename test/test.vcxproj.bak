@@ -24,6 +24,7 @@
     <ProjectGuid>{f970b27c-7473-4c3d-8227-a6bff8bfb76f}</ProjectGuid>
     <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MiniProject_ERPSystem</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,14 +141,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\client.c" />
+    <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c" />
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
+    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_jago.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_order.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_Warehousing.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_Work.c" />
     <ClCompile Include="source\MiniProject_ERP_InitSampleData.c" />
     <ClCompile Include="source\server.c" />
-    <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h" />
-    <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h" />
+    <ClInclude Include="source\MiniProject_ERP_1struct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

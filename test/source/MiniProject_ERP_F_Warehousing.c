@@ -125,9 +125,13 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', ]
 
 	//num_item
+	char temp_num_item[10] = "'";
 	strcat(Parameter_Insert, "\'");
 	strcat(Parameter_Insert, *(_result->next->_string_data));
 	strcat(Parameter_Insert, "\', ");
+
+	strcat(temp_num_item, *(_result->next->_string_data));
+	strcat(temp_num_item, "\'");
 
 	// 여기까지 Parameter_Insert = [4, 'warehouse1', 1999, 'SampleItem1', 19999, ]
 
@@ -276,6 +280,53 @@ void Insert_WarehousingData_from_BuyingList(void)	// 발주입고 - 발주정보를 불러�
 	file_column_free();
 
 	
+
+	// 재고테이블에 해당품목수량 입고수량만큼 업데이트
+
+	if (initalizing("Jaego") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	char item_number[100] = "num_item=";
+	strcat(item_number, temp_num_item);
+
+	if (_select(item_number, "ibgo_item", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if ((result_count = recv_result(&_result, select_result_str)) == -1) {		// select로 받아온 정보를 _result 포인트 구조체에 멤버로 저장함
+		printf("%s\n", err_msg);												// 구조체양식은 연결리스트
+
+		file_column_free();
+		return -1;
+	}
+
+
+	char update_jago_from_ibgo[100] = "ibgo_item=";
+	num_InWarehouse = num_InWarehouse + (*(_result->_int_data));	// 기존 입고수량에 방금 입고된 수량을 더한값을 업데이트
+	itoa(num_InWarehouse, temp_int, 10);
+	strcat(update_jago_from_ibgo, temp_int);
+	
+
+	if (_update(item_number, update_jago_from_ibgo) == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	file_column_free();							// 발주리스트파일(Buy_item) 닫기
+	result_free(_result, result_count);			// _result 포인트구조체 삭제
+
+
 }
 
 
@@ -533,6 +584,52 @@ void Insert_WarehousingData(void)		// 예외입고 - 정보를 하나하나 입력
 	print_data();
 	printf("\n\n");
 	file_column_free();		// 입고파일(In_WareHouse) 닫기
+
+	
+	if (initalizing("Jaego") == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	char item_number[100] = "num_item=";
+	strcat(item_number, Select_Item);
+
+	if (_select(item_number, "ibgo_item", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if ((result_count = recv_result(&_result, select_result_str)) == -1) {		// select로 받아온 정보를 _result 포인트 구조체에 멤버로 저장함
+		printf("%s\n", err_msg);												// 구조체양식은 연결리스트
+
+		file_column_free();
+		return -1;
+	}
+
+
+	char update_jago_from_ibgo[100] = "ibgo_item=";
+	num_InWarehouse = num_InWarehouse + (*(_result->_int_data));	// 기존 입고수량에 방금 입고된 수량을 더한값을 업데이트
+	itoa(num_InWarehouse, temp_int, 10);
+	strcat(update_jago_from_ibgo, temp_int);
+
+
+	if (_update(item_number, update_jago_from_ibgo) == -1)
+	{
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	file_column_free();							// 발주리스트파일(Buy_item) 닫기
+	result_free(_result, result_count);			// _result 포인트구조체 삭제
+
+
 }
 
 void print_Warehousing_state(void)		// 입고현황출력

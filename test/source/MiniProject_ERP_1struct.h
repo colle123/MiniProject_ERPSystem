@@ -13,6 +13,8 @@ void Insert(void);
 void edit_minus_table(void);		////생산 넘겨주며 수량 하나씩 빼고 넘겨주기
 void edit_plus_table(void);			////입고한 수량만큼 더해주기
 void jaego_print1(void);			////최종 재고 수량 출력해서 조회
+void initCreate();
+void initSampledata();
 
 typedef struct In_WareHouse					// 입고구조체
 {
@@ -86,6 +88,7 @@ struct item							// 품목구조체
 	char LOT_number[20];			// RA = 원자재, SU =	부제품, PR = 상품
 									// ex) 
 };
+
 typedef struct Work_Use			// 자재 사용(작업별) 구조체
 {
 	char work_order_num[20];	//작업지시번호
@@ -96,6 +99,7 @@ typedef struct Work_Use			// 자재 사용(작업별) 구조체
 	char LOT[20];				//lot넘버
 
 }workuse;
+
 
 typedef struct Work_process			// 작업지시 부분 
 {

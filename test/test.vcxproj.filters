@@ -18,9 +18,6 @@
     <ClCompile Include="source\client.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="source\MiniProject_ERP_InitSampleData.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -30,16 +27,7 @@
     <ClCompile Include="source\server.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="source\MiniProject_ERP_order.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="source\MiniProject_ERP_Work.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="source\MiniProject_ERP_jago.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_F_order.c">
@@ -54,12 +42,15 @@
     <ClCompile Include="source\MiniProject_ERP_F_Work.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_Registration_work_performance.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_Production_warehousing.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="source\MiniProject_ERP_1struct.h">

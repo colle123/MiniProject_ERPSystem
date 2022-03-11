@@ -146,18 +146,15 @@
     <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c" />
     <ClCompile Include="source\MiniProject_ERP_F_jago.c" />
     <ClCompile Include="source\MiniProject_ERP_F_order.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_Production_warehousing.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_Registration_work_performance.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Work.c" />
-    <ClCompile Include="source\MiniProject_ERP_InitSampleData.c" />
-    <ClCompile Include="source\MiniProject_ERP_jago.c" />
-    <ClCompile Include="source\MiniProject_ERP_order.c" />
-    <ClCompile Include="source\MiniProject_ERP_Work.c" />
     <ClCompile Include="source\server.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h" />
     <ClInclude Include="source\MiniProject_ERP_1struct.h" />
-    <ClInclude Include="source\MiniProject_ERP_struct_warehousing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

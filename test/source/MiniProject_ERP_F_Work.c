@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include "local.h"
-#include <time.h>
 #include"MiniProject_ERP_1struct.h"
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
@@ -33,13 +31,14 @@ void By_work(void)
 	print_data();		//목록출력
 	printf("\n");
 
+	printf("\n===============================================================================================\n");
 	printf("\n작업지시번호를 선택해주세요. : "); // 작업지시 번호 출력
 	scanf("%s", &select_WU);
 
-	char select_num_work[100] = "work_order_num=";
+	char select_num_work[100] = "Work_Instruction_Number=";
 	strcat(select_num_work, select_WU);		// 양식 선언
 
-	if (_select(select_num_work, "work_order_num, Product_num, Product_name,performance_num, LOT", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+	if (_select(select_num_work, "Work_Instruction_Number, Item_Number, Name,performance_num, LOT", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -78,18 +77,23 @@ void By_work(void)
 	strcat(Parameter_Insert, ",");
 
 	//Performanced_number
-	itoa(*(_result->next->next->next->_int_data), temp_int, 10);
-	strcat(Parameter_Insert, temp_int);
-	strcat(Parameter_Insert, ",");
+	strcat(Parameter_Insert, "\'");
+	strcat(Parameter_Insert, *(_result->next->next->next->_string_data));
+	strcat(Parameter_Insert, "\', ");
 
 	//LOT_NO
 	strcat(Parameter_Insert, "\'");
 	strcat(Parameter_Insert, *(_result->next->next->next->next->_string_data));
-
+	strcat(Parameter_Insert, "\'");
+	file_column_free();
 
 	printf("\n%s를 입력하셨습니다.\n", Parameter_Insert);
+	printf("\n===============================================================================================\n");
+	printf("계속하려면 엔터를 눌러주세요~\n");
+	printf("\n");
+	_getch();
 
-	if (initalizing("Work_Use") == -1) {		// 작업별 자자사용 테이블 오픈
+	if (initalizing("Work_Use") == -1) {		// 작업별 자재사용 테이블 오픈
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -133,13 +137,14 @@ void Product(void)
 	print_data();		//목록출력
 	printf("\n");
 
-	printf("\n작업지시번호를 선택해주세요. : "); // 작업지시 번호 출력
+	printf("\n===============================================================================================\n");
+	printf("\n                           작업지시번호를 선택해주세요. : "); // 작업지시 번호 출력
 	scanf("%s", &select_WU);
 
-	char select_num_work[100] = "work_order_num=";
+	char select_num_work[100] = "Work_Instruction_Number=";
 	strcat(select_num_work, select_WU);		// 양식 선언
 
-	if (_select(select_num_work, "work_order_num, Product_num, Product_name,indicated_quantity, LOT", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
+	if (_select(select_num_work, "Work_Instruction_Number, Item_Number, Name,performance_num, LOT", &select_result_str) == -1) {	// 만든 양식을 토대로 창고목록에서 내부 칼럼정보를 선택해 받아옴
 		printf("%s\n", err_msg);
 
 		file_column_free();
@@ -170,9 +175,9 @@ void Product(void)
 	strcat(Parameter_Insert, "\', ");
 
 	//지시수량
-	itoa(*(_result->next->next->next->_int_data), temp_int, 10);
-	strcat(Parameter_Insert, temp_int);
-	strcat(Parameter_Insert, ",");
+	strcat(Parameter_Insert, "\'");
+	strcat(Parameter_Insert, *(_result->next->next->next->_string_data));
+	strcat(Parameter_Insert, "\', ");
 
 	//LOT번호
 	strcat(Parameter_Insert, "\'");
@@ -193,7 +198,8 @@ void Product(void)
 	print_data();				// 물품 목록출력
 	printf("\n");
 
-	printf("\n물품이름을 입력해주세요.");
+	printf("\n===============================================================================================\n");
+	printf("\n                                  물품이름을 입력해주세요.");
 	scanf("%s", Num_item);
 
 	char num_item[100] = "item_NAME=";		//문자열 변수선언
@@ -212,7 +218,7 @@ void Product(void)
 		return -1;
 	} //구조체 저장
 
-
+	file_column_free();
 	//물품명
 
 
@@ -240,6 +246,11 @@ void Product(void)
 	itoa(use, temp_int, 10);
 	strcat(Parameter_Insert, temp_int);
 
+	printf("\n%s를 입력하셨습니다.\n", Parameter_Insert);
+	printf("\n===============================================================================================\n");
+	printf("계속하려면 엔터를 눌러주세요~\n");
+	printf("\n");
+	_getch();
 
 	//제품별 오픈
 	if (initalizing("Product_usage_status") == -1)
@@ -256,7 +267,6 @@ void Product(void)
 		file_column_free();
 		return -1;
 	}
-	printf("\n%s를 입력하셨습니다.\n", Parameter_Insert);
 
 	print_data();
 	printf("\n\n");
@@ -267,7 +277,9 @@ void Product(void)
 void Print_use(void)
 {
 	int two_menu = 0;
-	printf("(1)자재사용현황 작업별(2)자재사용현황 제품별\n");
+	printf("\n===============================================================================================\n");
+	printf("                      (1)자재사용현황 작업별(2)자재사용현황 제품별\n");
+	printf("\n===============================================================================================\n");
 	scanf("%d", &two_menu);
 
 	if (two_menu == 1)
@@ -309,8 +321,8 @@ void Del(void)
 {
 	int submenu = 0;
 	printf("\n===============================================================================================\n");
-	printf("삭제메뉴입니다. 삭제할 메뉴를 선택해주세요.\n");
-	printf("(1)작업별 자재사용 (2)제품별 자재사용\n");
+	printf("                      삭제메뉴입니다. 삭제할 메뉴를 선택해주세요.\n");
+	printf("                           (1)작업별 자재사용 (2)제품별 자재사용\n");
 	printf("\n===============================================================================================\n");
 	scanf("%d", &submenu);
 
@@ -331,7 +343,7 @@ void Del(void)
 		scanf("%s", delnum);
 
 		char conditional[26];
-		sprintf(conditional, "work_order_num='%s'", delnum);		// 조건문
+		sprintf(conditional, "Work_Instruction_Number='%s'", delnum);		// 조건문
 
 		if (_delete(conditional) == -1)
 		{
@@ -361,7 +373,7 @@ void Del(void)
 		scanf("%s", delnum);
 
 		char conditional[26];
-		sprintf(conditional, "work_order_num='%s'", delnum);		// 조건문
+		sprintf(conditional, "Work_Instruction_Number='%s'", delnum);		// 조건문
 
 		if (_delete(conditional) == -1)
 		{

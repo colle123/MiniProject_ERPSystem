@@ -1,1 +1,1 @@
-work_order_num 5 20 num_item 5 20 name_item 5 20 indicated_quantity 1 4 LOT_NO 5 20 item_NAME 5 20 item_NUMBER 5 20 item_LOT 5 20 Amountused 1 4
+Work_Instruction_Number 5 20 Name 5 20 Item_Number 5 20 Quantity 1 4 LOT_NO 5 20 item_NAME 5 20 item_NUMBER 5 20 item_LOT 5 20 Amountused 1 4
