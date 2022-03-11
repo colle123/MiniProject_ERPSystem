@@ -48,6 +48,12 @@
     <ClCompile Include="source\MiniProject_ERP_F_Production_warehousing.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_WorkPlan.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_BOM.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\local.h">

@@ -15,6 +15,7 @@ void edit_plus_table(void);			////입고한 수량만큼 더해주기
 void jaego_print1(void);			////최종 재고 수량 출력해서 조회
 void initCreate();
 void initSampledata();
+void Insert_Production_Plan_File(void);
 
 typedef struct In_WareHouse					// 입고구조체
 {
@@ -138,6 +139,60 @@ typedef struct ITEM			// 물품등록
 	char tem_SirealNUMBER[20];
 };
 
+
+typedef char element;
+
+typedef struct BOMF_Node {    // BOM 트리 생성을 위한 노드
+
+	struct BOMFNode* LeftChild;
+	struct BOMFNode* RightSibling;
+	element Data[50];
+
+}BOMFNode;
+
+typedef struct bom            // BOM 등록
+{
+	int BOM_Num;              // BOM 순번 INT
+	char BOM_Code;            // BOM 품번코드 VARCHAR(10)
+	char BOM_Name;            // BOM 품명 VARCHAR(20)
+	double BOM_Amount;        // BOM 수량 DOUBLE
+
+}BOM;
+
+typedef struct BOM_Foward            // BOM 정전개
+{
+
+	int BOM_F_Num;                   // BOM 정전개 순번 INT
+	char BOM_F_Code;                 // BOM 정전개 품번코드 VARCHAR(10)
+	char BOM_F_Name;                 // BOM 정전개 품명 VARCHAR(20)
+	char BOM_F_Material;             // BOM 정전개 계정 VARCHAR(10) 
+
+}BOM_F;
+
+typedef struct BOM_Reverse           // BOM 역전개
+{
+
+	int BOM_R_Num;                   // BOM 역전개 순번 INT
+	char BOM_R_Code;                 // BOM 역전개 품번코드 VARCHAR(10)
+	char BOM_R_Name;                 // BOM 역전개 품명 VARCHAR(20)
+	char BOM_R_Material;             // BOM 역전개 계정 VARCHAR(10)
+
+}BOM_R;
+
+void Create_BOMFile();
+void Cre_BOM_Table();
+void Cre_Sampleitem();
+void Make_BOM();
+void Make_BOM_F(BOMFNode*, int);
+void Make_BOM_R(BOMFNode*, int);
+BOMFNode* BOM_Tree();
+BOMFNode* BOM_Create_Node();
+void BOM_AddClidNode(BOMFNode*, element);
+void BOM_PrintNodesAtLevel(BOMFNode*, int);
+BOMFNode* BOMF_FoundNode(BOMFNode*, element);
+void Print_ITEM_File();
+float print_BOM_Total();
+void Print_Select_BOM();
 
 /* 생산품 청구등록 -> 작업지시
    사용일자(입력)

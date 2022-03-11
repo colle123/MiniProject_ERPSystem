@@ -1421,7 +1421,7 @@ int print_data() {
 				}
 				else {
 					fread(&i_token, sizeof(int), 1, F);
-					printf("    %d", i_token);
+					printf("    %8d", i_token);
 				}
 
 				break;
@@ -1463,7 +1463,7 @@ int print_data() {
 				if (c_token == pad)
 					printf("    (NULL)");
 				else
-					printf("    %c", c_token);
+					printf("    %2c", c_token);
 				break;
 			}
 			case _VARCHAR:
@@ -1482,7 +1482,7 @@ int print_data() {
 				}
 				else {
 					string = strtok(s_token, pad_seprator);
-					printf("    %s", string);
+					printf("    %10s", string);
 				}
 				break;
 			}
@@ -1528,4 +1528,320 @@ void file_column_free() {
 	data_end_index = 0;
 	data_line_length = 0;
 	select_result_str = 0;
+}
+int print_ITEM() {
+
+	column* cur;
+	int searching = data_start_index;
+
+	cur = head;
+	while (cur->next != 0) {
+		cur = cur->next;
+		printf("     %s", cur->name);
+	}
+	printf("\n=============================================================================================\n");
+	F = fopen(_file_location, "rb");
+	while (searching < data_end_index) {
+		fseek(F, searching, SEEK_SET);
+		cur = head;
+		while (cur->next != 0) {
+			char IS_NULL[5] = "    \0";
+			cur = cur->next;
+			switch (cur->type) {
+			case _INT:
+			{
+				int i_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(int), SEEK_CUR);
+				}
+				else {
+					fread(&i_token, sizeof(int), 1, F);
+					printf("  %6d    ", i_token);
+				}
+
+				break;
+			}
+			case _FLOAT:
+			{
+				float f_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(float), SEEK_CUR);
+				}
+				else {
+					fread(&f_token, sizeof(float), 1, F);
+					printf("    %9.3f", f_token);
+				}
+				break;
+			}
+			case _DOUBLE:
+			{
+				double d_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(double), SEEK_CUR);
+				}
+				else {
+					fread(&d_token, sizeof(double), 1, F);
+					printf("    %9.3lf", d_token);
+				}
+				break;
+			}
+			case _CHAR:
+			{
+				char c_token;
+				c_token = fgetc(F);
+				if (c_token == pad)
+					printf("    (NULL)");
+				else
+					printf("    %9c", c_token);
+				break;
+			}
+			case _VARCHAR:
+			{
+				char* s_token;
+				char* string;
+				if ((s_token = (char*)malloc((cur->length) + 1)) == NULL) {
+					strcpy(err_msg, "Memory Allocation Failed");
+
+					return -1;
+				}
+				fread(s_token, cur->length, 1, F);
+				s_token[cur->length] = '\0';
+				if (s_token[0] == pad) {
+					printf("    (NULL)");
+				}
+				else {
+					string = strtok(s_token, pad_seprator);
+					printf("  %11s   ", string);
+				}
+				break;
+			}
+			}
+		}
+
+		printf("\n");
+		searching += data_line_length;
+	}
+	printf("\n=============================================================================================\n");
+	fclose(F);
+	return 0;
+}
+int print_BOM() {
+
+	column* cur;
+	int searching = data_start_index;
+
+	cur = head;
+	while (cur->next != 0) {
+		cur = cur->next;
+		printf("    %s", cur->name);
+	}
+	printf("\n=========================================================\n");
+	F = fopen(_file_location, "rb");
+	while (searching < data_end_index) {
+		fseek(F, searching, SEEK_SET);
+		cur = head;
+		while (cur->next != 0) {
+			char IS_NULL[5] = "    \0";
+			cur = cur->next;
+			switch (cur->type) {
+			case _INT:
+			{
+				int i_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(int), SEEK_CUR);
+				}
+				else {
+					fread(&i_token, sizeof(int), 1, F);
+					printf("    %6d", i_token);
+				}
+
+				break;
+			}
+			case _FLOAT:
+			{
+				float f_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(float), SEEK_CUR);
+				}
+				else {
+					fread(&f_token, sizeof(float), 1, F);
+					printf("    %9.3f", f_token);
+				}
+				break;
+			}
+			case _DOUBLE:
+			{
+				double d_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(double), SEEK_CUR);
+				}
+				else {
+					fread(&d_token, sizeof(double), 1, F);
+					printf("    %9.3lf", d_token);
+				}
+				break;
+			}
+			case _CHAR:
+			{
+				char c_token;
+				c_token = fgetc(F);
+				if (c_token == pad)
+					printf("    (NULL)");
+				else
+					printf("    %9c", c_token);
+				break;
+			}
+			case _VARCHAR:
+			{
+				char* s_token;
+				char* string;
+				if ((s_token = (char*)malloc((cur->length) + 1)) == NULL) {
+					strcpy(err_msg, "Memory Allocation Failed");
+
+					return -1;
+				}
+				fread(s_token, cur->length, 1, F);
+				s_token[cur->length] = '\0';
+				if (s_token[0] == pad) {
+					printf("    (NULL)");
+				}
+				else {
+					string = strtok(s_token, pad_seprator);
+					printf("    %9s", string);
+				}
+				break;
+			}
+			}
+		}
+		printf("\n");
+		searching += data_line_length;
+	}
+
+	fclose(F);
+	return 0;
+}
+float print_BOM_Total() {
+
+	column* cur;
+	int searching = data_start_index;
+	float Total = 0;
+
+	cur = head;
+	while (cur->next != 0) {
+		cur = cur->next;
+		printf("    %s", cur->name);
+	}
+	printf("\n=========================================================\n");
+	F = fopen(_file_location, "rb");
+	while (searching < data_end_index) {
+		fseek(F, searching, SEEK_SET);
+		cur = head;
+		while (cur->next != 0) {
+			char IS_NULL[5] = "    \0";
+			cur = cur->next;
+			switch (cur->type) {
+			case _INT:
+			{
+				int i_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(int), SEEK_CUR);
+				}
+				else {
+					fread(&i_token, sizeof(int), 1, F);
+					printf("    %6d", i_token);
+				}
+
+				break;
+			}
+			case _FLOAT:
+			{
+				float f_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(float), SEEK_CUR);
+				}
+				else {
+					fread(&f_token, sizeof(float), 1, F);
+					printf("    %9.3f", f_token);
+					Total = Total + f_token;
+				}
+				break;
+			}
+			case _DOUBLE:
+			{
+				double d_token;
+				fread(IS_NULL, sizeof(char), 4, F);
+				fseek(F, -4, SEEK_CUR);
+				if (!strcmp(IS_NULL, "NULL")) {
+					printf("    (NULL)");
+					fseek(F, sizeof(double), SEEK_CUR);
+				}
+				else {
+					fread(&d_token, sizeof(double), 1, F);
+					printf("    %9.3lf", d_token);
+				}
+				break;
+			}
+			case _CHAR:
+			{
+				char c_token;
+				c_token = fgetc(F);
+				if (c_token == pad)
+					printf("    (NULL)");
+				else
+					printf("    %9c", c_token);
+				break;
+			}
+			case _VARCHAR:
+			{
+				char* s_token;
+				char* string;
+				if ((s_token = (char*)malloc((cur->length) + 1)) == NULL) {
+					strcpy(err_msg, "Memory Allocation Failed");
+
+					return -1;
+				}
+				fread(s_token, cur->length, 1, F);
+				s_token[cur->length] = '\0';
+				if (s_token[0] == pad) {
+					printf("    (NULL)");
+				}
+				else {
+					string = strtok(s_token, pad_seprator);
+					printf("    %9s", string);
+				}
+				break;
+			}
+			}
+		}
+		printf("\n");
+		searching += data_line_length;
+	}
+
+	fclose(F);
+
+	return Total;
 }

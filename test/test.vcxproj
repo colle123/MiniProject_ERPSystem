@@ -144,12 +144,14 @@
     <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c" />
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_BOM.c" />
     <ClCompile Include="source\MiniProject_ERP_F_jago.c" />
     <ClCompile Include="source\MiniProject_ERP_F_order.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Production_warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Registration_work_performance.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Warehousing.c" />
     <ClCompile Include="source\MiniProject_ERP_F_Work.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_WorkPlan.c" />
     <ClCompile Include="source\server.c" />
   </ItemGroup>
   <ItemGroup>

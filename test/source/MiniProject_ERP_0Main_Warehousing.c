@@ -37,218 +37,266 @@ int main(void)
 		int Select_main_menu = 0;
 
 		printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-		printf("\t1. 생산\n\t2. 입고/발주\n\t3. 자재\n\t4.프로그램 종료\n");
+		printf("\t1. 생산\n\t2. 입고/발주\n\t3. 자재\n\t4. 프로그램 종료\n");
 		scanf("%d", &Select_main_menu);
 
 		if (Select_main_menu == 1)
 		{
-			system("cls");
-			int Select_make_menu = 0;
-			printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-			printf("\t1. 자재사용관리\n\t2. 생산실적 및 생산품입고\n\t3. 뒤로가기 \n");
-			scanf("%d", &Select_make_menu);
-
-			if (Select_make_menu == 1)
+			while (1)
 			{
-				while (1)
+				system("cls");
+				int Select_make_menu = 0;
+				printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+				printf("\t1. 자재사용관리\n\t2. 생산실적 및 생산품입고\n\t3. 생산계획 및 작업지시등록 \n\t4. 뒤로가기\n");
+				scanf("%d", &Select_make_menu);
+
+				if (Select_make_menu == 1)
 				{
-					system("cls");
-					int memunum, menu = 0;
-
-					printf("\n=======================================메뉴 선택===============================================\n");
-					printf("                      (1)조회(2)사용현황등록(3)삭제(4)나가기\n");
-					printf("\n==================================번호를 입력해주세요==========================================\n");
-					scanf("%d", &menu);
-
-					if (menu == 1)
+					while (1)
 					{
 						system("cls");
-						Print_use();
-					}
-					else if (menu == 2)
-					{
-						system("cls");
-						printf("\n=======================================메뉴 선택===============================================\n");
-						printf("                       (1)작업별자재사용현황(2)제품별자재사용현황\n");
-						printf("\n==================================번호를 입력해주세요==========================================\n");
-						scanf("%d", &memunum);
+						int memunum, menu = 0;
 
-						if (memunum == 1)	// 작업지시부분 오픈
+						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+						printf("\t1. 조회\n\t2. 사용현황등록\n\t3. 삭제\n\t4. 뒤로가기\n");
+						scanf("%d", &menu);
+
+						if (menu == 1)
 						{
 							system("cls");
-							By_work();
-							system("pause");
+							Print_use();
 						}
-
-						else if (memunum == 2)
+						else if (menu == 2)
 						{
 							system("cls");
-							Product();
-							system("pause");
+							printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+							printf("\t1. 작업별자재사용현황\n\t2. 제품별자재사용현황\n");
+							scanf("%d", &memunum);
 
+							if (memunum == 1)	// 작업지시부분 오픈
+							{
+								system("cls");
+								By_work();
+								system("pause");
+							}
+
+							else if (memunum == 2)
+							{
+								system("cls");
+								Product();
+								system("pause");
+
+							}
 						}
-					}
-					else if (menu == 3)
-					{
-						system("cls");
-						Del();
-						system("pause");
-					}
-					else if (menu == 4)
-					{
-						break;
-					}
+						else if (menu == 3)
+						{
+							system("cls");
+							Del();
+							system("pause");
+						}
+						else if (menu == 4)
+						{
+							break;
+						}
 
+					}
 				}
-			}
-			else if (Select_make_menu == 2)
-			{
-				int select;
-				while (1) {
-					printf("(1)작업실적등록 (2)생산품창고입고처리 : ");
-					scanf("%d", &select);
-					switch (select) {
-					case 1:
-						system("cls");
-						Registration_work_performance();
-						break;
-					case 2: 
-						system("cls");
-						Production_warehousing();
-						break;
-					default:
+				else if (Select_make_menu == 2)
+				{
+					int select;
+					while (1) {
+						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+						printf("\t1. 작업실적등록\n\t2. 생산품 입고처리\n");
+						scanf("%d", &select);
+						switch (select) {
+						case 1:
+							system("cls");
+							Registration_work_performance();
+							break;
+						case 2:
+							system("cls");
+							Production_warehousing();
+							break;
+						default:
+							break;
+						}
 						break;
 					}
+				}
+
+				else if (Select_make_menu == 3)	// 생산계획테이블 값 삽입
+				{
+					while (1)
+					{
+						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+						printf("\t1. 생산계획 \n\t2. 작업지시등록\n\t3. 뒤로가기\n");
+						int Select_plan = 0;
+						scanf("%d", &Select_plan);
+
+						if (Select_plan == 1)
+						{
+							printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+							printf("\t1. 생산계획등록 \n\t2. BOM\n\t3. BOM출력\n");
+							int Select_manufature_plan = 0;
+							scanf("%d", &Select_manufature_plan);
+
+							if (Select_manufature_plan == 1)
+							{
+								Insert_Production_Plan_File();
+							}
+							else if (Select_manufature_plan == 2)
+							{
+								Make_BOM();
+							}
+							else if (Select_manufature_plan == 3)
+							{
+								Print_Select_BOM();
+							}
+							else if (Select_manufature_plan == 4)
+							{
+								break;
+							}
+							
+						}
+						else if (Select_plan == 2)
+						{
+							Insert_Work_order_File();
+						}
+						else if (Select_plan == 3)
+						{
+							break;
+						}
+					}
+				}
+
+				else if (Select_make_menu == 4)
+				{
 					break;
 				}
-			}
-
-			else if (Select_make_menu == 3)
-			{
-				break;
 			}
 
 		}
 
 		else if (Select_main_menu == 2)
 		{
-
-
-			int Select = 0;
-			printf(" 원하는 메뉴선택\n");
-			printf("1. 발주\t2. 입고\t3. 뒤로가기\n");
-			scanf("%d", &Select);
-
-			if (Select == 1) // 발주
+			while (1)
 			{
-				while (1)
+				int Select = 0;
+				printf(" 원하는 메뉴선택\n");
+				printf("\t1. 발주\n\t2. 입고\n\t3. 뒤로가기\n");
+				scanf("%d", &Select);
+
+				if (Select == 1) // 발주
 				{
-					system("cls");
-					int Select_balju = 0;
-					printf(" 발주메뉴입니다.\n 원하는 메뉴를 선택해주세요\n");
-					printf(" 1. 발주등록\t2. 발주조회\t3. 발주삭제\t4. 뒤로가기\n");
-					scanf("%d", &Select_balju);
+					while (1)
+					{
+						system("cls");
+						int Select_balju = 0;
+						printf(" 원하는 메뉴선택\n");
+						printf("\t1. 발주등록\n\t2. 발주조회\n\t3. 발주삭제\n\t4. 뒤로가기\n");
+						scanf("%d", &Select_balju);
 
-					if (Select_balju == 1) // 1-1.발주등록
-					{
-						system("cls");
-						insertOrderData();
-						system("pause");
-					}
-					else if (Select_balju == 2)// 1-2.발주조회
-					{
-						system("cls");
-						orderList();
-						system("pause");
+						if (Select_balju == 1) // 1-1.발주등록
+						{
+							system("cls");
+							insertOrderData();
+							system("pause");
+						}
+						else if (Select_balju == 2)// 1-2.발주조회
+						{
+							system("cls");
+							orderList();
+							system("pause");
 
-					}
-					else if (Select_balju == 3) // 1-3. 발주삭제
-					{
-						system("cls");
-						deleteOrderData();
-						system("pause");
-					}
-					else if (Select_balju == 4) // 1-4. 뒤로가기
-					{
-						system("cls");
-						break;
-					}
-					else
-					{
-						printf(" 잘못된 입력값입니다.\n");
-						while (getchar() != '\n');
+						}
+						else if (Select_balju == 3) // 1-3. 발주삭제
+						{
+							system("cls");
+							deleteOrderData();
+							system("pause");
+						}
+						else if (Select_balju == 4) // 1-4. 뒤로가기
+						{
+							system("cls");
+							break;
+						}
+						else
+						{
+							printf(" 잘못된 입력값입니다.\n");
+							while (getchar() != '\n');
+						}
 					}
 				}
-			}
 
-			else if (Select == 2)	// 입고
-			{
-
-				while (1)
+				else if (Select == 2)	// 입고
 				{
-					system("cls");
-					int Select_ibgo = 0;
-					printf(" 입고메뉴입니다.\n 원하시는 메뉴를 선택해주세요 : \n\n");
-					printf(" 1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 뒤로가기\n");
-					//printf(" 1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 입고삭제\t5. 뒤로가기\n");
-					scanf("%d", &Select_ibgo);
 
-					if (Select_ibgo == 1)	// 2-1.예외입고
+					while (1)
 					{
 						system("cls");
-						Insert_WarehousingData();
-						system("pause");
-					}
+						int Select_ibgo = 0;
+						printf(" 입고메뉴입니다.\n 원하시는 메뉴를 선택해주세요 : \n\n");
+						printf(" 1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 뒤로가기\n");
+						//printf(" 1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 입고삭제\t5. 뒤로가기\n");
+						scanf("%d", &Select_ibgo);
 
-					else if (Select_ibgo == 2)	// 2-2.발주입고
-					{
-						system("cls");
-						Insert_WarehousingData_from_BuyingList();
-						system("pause");
-					}
+						if (Select_ibgo == 1)	// 2-1.예외입고
+						{
+							system("cls");
+							Insert_WarehousingData();
+							system("pause");
+						}
 
-					else if (Select_ibgo == 3)	// 2-3.입고현황
-					{
-						system("cls");
-						print_Warehousing_state();
-						system("pause");
+						else if (Select_ibgo == 2)	// 2-2.발주입고
+						{
+							system("cls");
+							Insert_WarehousingData_from_BuyingList();
+							system("pause");
+						}
 
-					}
+						else if (Select_ibgo == 3)	// 2-3.입고현황
+						{
+							system("cls");
+							print_Warehousing_state();
+							system("pause");
 
-					else if (Select_ibgo == 4)	// 2-4.뒤로가기
-					{
-						system("cls");
-						break;
-					}
-					/*
-					else if (Select_ibgo == 4)	// 2-4.입고삭제
-					{
-						system("cls");
-						delete_Warehousing();
-					}
+						}
 
-					else if (Select_ibgo == 5)	// 2-5.뒤로가기
-					{
-						system("cls");
-						break;
-					}
-					*/
-					else
-					{
-						printf(" 잘못된 값입니다.\n");
-						while (getchar() != '\n');
+						else if (Select_ibgo == 4)	// 2-4.뒤로가기
+						{
+							system("cls");
+							break;
+						}
+						/*
+						else if (Select_ibgo == 4)	// 2-4.입고삭제
+						{
+							system("cls");
+							delete_Warehousing();
+						}
+
+						else if (Select_ibgo == 5)	// 2-5.뒤로가기
+						{
+							system("cls");
+							break;
+						}
+						*/
+						else
+						{
+							printf(" 잘못된 값입니다.\n");
+							while (getchar() != '\n');
+						}
 					}
 				}
-			}
-			else if (Select == 3)	// 뒤로가기
-			{
-				break;
-			}
+				else if (Select == 3)	// 뒤로가기
+				{
+					break;
+				}
 
-			else
-			{
-				printf(" 잘못된 입력값 입니다\n");
-				while (getchar() != '\n');
+				else
+				{
+					printf(" 잘못된 입력값 입니다\n");
+					while (getchar() != '\n');
+				}
 			}
 		}
 
@@ -262,7 +310,7 @@ int main(void)
 
 
 				printf("\t재고관리\n");
-				printf("1.현 재고 현황 2.재고 이동 \n");
+				printf("1.현 재고 현황 2.재고 이동 3.뒤로가기\n");
 				printf("======================================\n");
 
 				scanf("%d", &option1);

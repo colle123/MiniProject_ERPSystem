@@ -6,6 +6,9 @@
 
 void Create_File(void)
 {
+	// 손님테이블 생성
+	_create("CUSTOMER", "customer VARCHAR(20)");
+	
 	// 입고테이블 서버에 생성
 	_create("In_WareHouse", "num_In_WareHouse INT name_warehouse VARCHAR(20) num_warehouse INT name_item VARCHAR(20) num_item VARCHAR(20) LOT_number VARCHAR(20)  date INT name_responsible VARCHAR(20) num_responsible INT num_in INT bill INT pay_in INT tax INT pay_sum INT");
 							// 입고순번				창고이름						창고번호			품목명					품번			품목로트넘버				날짜		담당자명							담당자번호		입고수량		단가		공급가		세금		합계액
@@ -31,18 +34,20 @@ void Create_File(void)
 	//						창고이름						창고번호
 
 	// <생산계획등록>
+
 	_create("Production_Plan_Registration", "Item_Number VARCHAR(20) Name VARCHAR(20) Daily_Capacity INT Order VARCHAR(20) ETC INT Quantity INT");
-	//											품번					품명					일 생산량			순서			작업예정일	수량
+	//Item_Number(품번) INT Name(품명) Daily_Capacity(일 생산량) Order(순서) ETC(작업예정일) Quantity(수량)
+
 
 	//<작업지시등록>
-	_create("Work_Order_Registration", "Due_Date INT Quantity INT Work_Instruction_Number  VARCHAR(20) LOT VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20)");
-	//Work Instruction Number에 (제품구분+(공정)+날짜+번호) 들어감
-	//									납기일		 지시수량		작업지시번호					LOT				품번						품명				고객
 
+	_create("Work_Order_Registration", "Due_Date INT Quantity INT Work_Instruction_Number VARCHAR(20) LOT VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20)");
+	//Work Instruction Number에 (제품구분+(공정)+날짜+번호) 들어감
+	//Due_Date(납기일) Quantity(지시수량) Work_Instruction_Number(작업지시번호) LOT(LOT) Item_Number(품번) Name(품명) Customer(고객)
+	
 	// 자제사용현황(작업별) 테이블 생성
 	_create("Work_Use", "Work_Instruction_Number VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Amountused INT Performanced_number INT LOT_NO VARCHAR(20)");
 	//                   작업지시번호		        ,품번 INT				,품명       CHAR       ,사용수량 INT , 실적번호           INT, LOT NO
-
 
 	_create("performance", "Work_Instruction_Number VARCHAR(20) Item_Number VARCHAR(20) Name VARCHAR(20) Customer VARCHAR(20) Quantity INT performance_quantity INT performance_num VARCHAR(20) LOT VARCHAR(20)");
 	//work_order_num(작업지시번호) Item_Number(품번) Name(품명) Customer(고객) Quantity(지시수량) performance_quantity(실적수량) performance_num(실적번호) LOT(LOT)
@@ -418,6 +423,59 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
+	file_column_free();
+
+	// 손님넣기
+	if (initalizing("CUSTOMER") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'유세준'") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'박세준'") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'여세준'") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'참세준'") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'오세준'") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	if (_insert("'김세준'") == -1) {
+		printf("%s\n", err_msg);
+
+		file_column_free();
+		return -1;
+	}
+
+	// 파일을 닫기
 	file_column_free();
 	
 }
