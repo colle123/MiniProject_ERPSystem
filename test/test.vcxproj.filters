@@ -36,9 +36,6 @@
     <ClCompile Include="source\MiniProject_ERP_F_jago.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_F_Work.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -52,6 +49,18 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_F_BOM.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_F_Contract_Register.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\contract_view.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\marketing_menu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

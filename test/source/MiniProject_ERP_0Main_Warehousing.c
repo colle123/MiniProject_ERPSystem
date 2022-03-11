@@ -37,7 +37,7 @@ int main(void)
 		int Select_main_menu = 0;
 
 		printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-		printf("\t1. 생산\n\t2. 입고/발주\n\t3. 자재\n\t4. 프로그램 종료\n");
+		printf("\t1. 생산\n\t2. 입고/발주\n\t3. 자재\n\t4. 영업\n\t5. 프로그램 종료\n");
 		scanf("%d", &Select_main_menu);
 
 		if (Select_main_menu == 1)
@@ -182,8 +182,8 @@ int main(void)
 			while (1)
 			{
 				int Select = 0;
-				printf(" 원하는 메뉴선택\n");
-				printf("\t1. 발주\n\t2. 입고\n\t3. 뒤로가기\n");
+				printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+				printf("\t1. 발주 \n\t2. 입고\n\t3. 뒤로가기\n");
 				scanf("%d", &Select);
 
 				if (Select == 1) // 발주
@@ -192,7 +192,7 @@ int main(void)
 					{
 						system("cls");
 						int Select_balju = 0;
-						printf(" 원하는 메뉴선택\n");
+						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
 						printf("\t1. 발주등록\n\t2. 발주조회\n\t3. 발주삭제\n\t4. 뒤로가기\n");
 						scanf("%d", &Select_balju);
 
@@ -235,8 +235,8 @@ int main(void)
 					{
 						system("cls");
 						int Select_ibgo = 0;
-						printf(" 입고메뉴입니다.\n 원하시는 메뉴를 선택해주세요 : \n\n");
-						printf(" 1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 뒤로가기\n");
+						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+						printf("\t1. 예외입고 \n\t2. 발주입고\n\t3. 입고현황\n\t4. 뒤로가기\n");
 						//printf(" 1. 예외입고\t2. 발주입고\t3. 입고현황\t4. 입고삭제\t5. 뒤로가기\n");
 						scanf("%d", &Select_ibgo);
 
@@ -308,10 +308,8 @@ int main(void)
 
 				system("cls");
 
-
-				printf("\t재고관리\n");
-				printf("1.현 재고 현황 2.재고 이동 3.뒤로가기\n");
-				printf("======================================\n");
+				printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+				printf("\t1. 현재고현황 \n\t2. 재고이동\n\t3. 뒤로가기\n");
 
 				scanf("%d", &option1);
 
@@ -380,7 +378,32 @@ int main(void)
 				break;
 			}
 		}
-		else if (Select_main_menu == 4)	// 종료
+		else if (Select_main_menu == 4)	// 수주
+		{
+		while (1) {
+			int main_choice = 0, produc_choice = 0, material_choice = 0, marketing_choice = 0;
+
+			marketing_choice = marketing_menu();
+			if (marketing_choice == 1) {
+				system("cls");
+				con_regi_choice();
+			}
+			else if (marketing_choice == 2) {
+				system("cls");
+				con_view();
+			}
+			else if (marketing_choice == 0) { //뒤로가기
+				system("cls");
+				break;
+			}
+			else { //이상한 값 입력
+				printf("# 잘못된 입력입니다!\n");
+				system("pause");
+				system("cls");
+			}
+		}
+		}
+		else if (Select_main_menu == 5)	// 종료
 		{
 		exit(-1);
 		}

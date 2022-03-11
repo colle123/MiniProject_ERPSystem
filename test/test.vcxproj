@@ -141,9 +141,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\client.c" />
+    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c" />
+    <ClCompile Include="source\MiniProject_ERP_F_Contract_Register.c" />
+    <ClCompile Include="source\contract_view.c" />
+    <ClCompile Include="source\marketing_menu.c" />
     <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c" />
     <ClCompile Include="source\MiniProject_ERP_0Main_Warehousing.c" />
-    <ClCompile Include="source\MiniProject_ERP_1InitSampleData.c" />
     <ClCompile Include="source\MiniProject_ERP_F_BOM.c" />
     <ClCompile Include="source\MiniProject_ERP_F_jago.c" />
     <ClCompile Include="source\MiniProject_ERP_F_order.c" />

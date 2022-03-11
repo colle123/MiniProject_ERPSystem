@@ -1463,7 +1463,7 @@ int print_data() {
 				if (c_token == pad)
 					printf("    (NULL)");
 				else
-					printf("    %2c", c_token);
+					printf("    %4c", c_token);
 				break;
 			}
 			case _VARCHAR:
@@ -1482,7 +1482,7 @@ int print_data() {
 				}
 				else {
 					string = strtok(s_token, pad_seprator);
-					printf("    %10s", string);
+					printf("    %12s", string);
 				}
 				break;
 			}

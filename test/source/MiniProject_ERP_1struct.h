@@ -16,6 +16,14 @@ void jaego_print1(void);			////최종 재고 수량 출력해서 조회
 void initCreate();
 void initSampledata();
 void Insert_Production_Plan_File(void);
+void login();
+int main_menu();
+int produc_menu();
+int material_menu();
+int marketing_menu();
+int con_view();
+void con_regi_choice();
+void createTable();
 
 typedef struct In_WareHouse					// 입고구조체
 {
@@ -179,6 +187,30 @@ typedef struct BOM_Reverse           // BOM 역전개
 
 }BOM_R;
 
+
+typedef struct _con {
+	char con_num[10];
+	int con_date;
+	char client[30];
+	int VAT;
+	char in_charge[30];
+
+}con;
+
+typedef struct _con_item {
+	char con_num[10];
+	int NO;
+	char item_num[20];
+	char item_name[20];
+	int due_date;
+	int date_shipment;
+	int amount;
+	int unit_price;
+	int supply_price;
+	int tax;
+	int total_price;
+}con_item;
+
 void Create_BOMFile();
 void Cre_BOM_Table();
 void Cre_Sampleitem();
@@ -193,6 +225,9 @@ BOMFNode* BOMF_FoundNode(BOMFNode*, element);
 void Print_ITEM_File();
 float print_BOM_Total();
 void Print_Select_BOM();
+void con_regi_choice();
+int con_regi();
+int con_item_regi();
 
 /* 생산품 청구등록 -> 작업지시
    사용일자(입력)
