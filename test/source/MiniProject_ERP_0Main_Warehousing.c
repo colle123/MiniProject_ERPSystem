@@ -3,17 +3,12 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
-
+#pragma warning(disable : 4098)
 
 
 int main(void)
 {
-	result* _result;
-	result* find;
-	int result_count;
-	warehouse WH;
-	workuse	WU;
-
+	system("mode con cols=200 lines=50");
 	time_t timer;
 	struct tm* t;
 	timer = time(NULL);
@@ -35,7 +30,7 @@ int main(void)
 	while (1)
 	{
 		int Select_main_menu = 0;
-
+		system("cls");
 		printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
 		printf("\t1. 생산\n\t2. 입고/발주\n\t3. 자재\n\t4. 영업\n\t5. 프로그램 종료\n");
 		scanf("%d", &Select_main_menu);
@@ -70,15 +65,16 @@ int main(void)
 						{
 							system("cls");
 							printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-							printf("\t1. 작업별자재사용현황\n\t2. 제품별자재사용현황\n");
+							printf("\t1. 작업별자재사용현황\n\t2. 제품별자재사용현황\n\t3. 뒤로가기\n");
 							scanf("%d", &memunum);
 
 							if (memunum == 1)	// 작업지시부분 오픈
 							{
 								system("cls");
 								By_work();
-								choijong_jaego_print_all();
-								system("pause");
+								//choijong_jaego_print_all();
+								choijong_jokup_print();
+							
 							}
 
 							else if (memunum == 2)
@@ -108,7 +104,7 @@ int main(void)
 					int select;
 					while (1) {
 						printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-						printf("\t1. 작업실적등록\n\t2. 생산품 입고처리\n");
+						printf("\t1. 작업실적등록\n\t2. 생산품 입고처리\n\t3. 뒤로가기\n");
 						scanf("%d", &select);
 						switch (select) {
 						case 1:
@@ -138,13 +134,34 @@ int main(void)
 						if (Select_plan == 1)
 						{
 							printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
-							printf("\t1. 생산계획등록 \n\t2. BOM\n\t3. BOM출력\n");
+							printf("\t1. 생산계획등록 \n\t2. BOM\n\t3. BOM출력\n\t4. 뒤로가기\n");
 							int Select_manufature_plan = 0;
 							scanf("%d", &Select_manufature_plan);
 
 							if (Select_manufature_plan == 1)
 							{
-								Insert_Production_Plan_File();
+								int num = 0;
+								num = Insert_Production_Plan_File();
+								int a = chulgo_jaego_print();
+								if (a > 0)
+								{
+									printf("======================================\n");
+									printf("생산하러가자이\n");
+									printf("======================================\n");
+									//Update_jago(num);
+									system("pause");
+
+								}
+
+								else
+								{
+									printf("======================================\n");
+									printf("발주하러가자이\n");
+									printf("======================================\n");
+									insertOrderData();
+									system("pause");
+								}
+
 							}
 							else if (Select_manufature_plan == 2)
 							{
@@ -306,7 +323,8 @@ int main(void)
 		{
 			while (1)
 			{
-				int option1, option2, option3;
+				int switch_escape = 0;
+				int option1;
 
 				system("cls");
 
@@ -329,9 +347,9 @@ int main(void)
 				case 2:
 					printf("\t재고 사용하기 \n");
 					printf("======================================\n");
-					//사용할 재고 입력 
+					// 사용할 재고 입력 
 					// (모든 조건 검색해서 하나라도 있으면 생산하러가고 갯수 하나씩 줄이기)
-					//재고 0 이면 발주로 보내고 입고 받은 재고번호 받아서 update
+					// 재고 0 이면 발주로 보내고 입고 받은 재고번호 받아서 update
 
 
 
@@ -359,12 +377,14 @@ int main(void)
 						system("pause");
 
 					}
+
 					else
 					{
 						printf("======================================\n");
 						printf("발주하러가자이\n");
 						printf("======================================\n");
 						insertOrderData();
+						system("pause");
 					}
 					//else
 					//{
@@ -374,12 +394,20 @@ int main(void)
 
 					break;
 
-				default:
+
+
+				case 3:
+					switch_escape = 1;
 					break;
+
+				default:
+					printf("잘못된 입력입니다!\n");
 				}
-				break;
+
+				if (switch_escape == 1) break;
 			}
 		}
+
 		else if (Select_main_menu == 4)	// 수주
 		{
 		while (1) {

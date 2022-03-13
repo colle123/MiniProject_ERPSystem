@@ -70,7 +70,7 @@ void Create_File(void)
 	//Work_Instruction_Number(작업지시번호) performance_num(실적번호) Product_num(품번) Name(품명) performance_quantity(실적수량) Customer(고객) LOT stock_num(입고번호) stock_date(입고일자) stock_warehouse(입고창고) stock_location(입고장소) stock_count(입고수량) 
 }
 
-void Init_SampleData(void)
+int Init_SampleData(void)
 {
 	// 입고테이블 샘플데이터 삽입
 	if (initalizing("In_WareHouse") == -1) {
@@ -80,30 +80,31 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("1, 'Warehouse1', 1999, 'CPU','CP10', 'CP20220308', 20220305, 'SamplePerson1', 199, 100, 990, 99000, 9900, 108900") == -1)
-	{
-		printf("%s\n", err_msg);
+	//if (_insert("1, 'Warehouse1', 1999, 'CPU','CP10', 'CP20220308', 20220305, 'SamplePerson1', 199, 100, 990, 99000, 9900, 108900") == -1)
+	//{
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("2, 'Warehouse2', 2999, 'HARD', 'HR10', 'HR20220308', 20220307,  'SamplePerson1', 199, 20, 1000, 20000, 2000, 22000") == -1)
-	{
-		printf("%s\n", err_msg);
+	//if (_insert("2, 'Warehouse2', 2999, 'HARD', 'HR10', 'HR20220308', 20220307,  'SamplePerson1', 199, 20, 1000, 20000, 2000, 22000") == -1)
+	//{
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("3, 'Warehouse1', 1999, 'MAINBORAD', 'MB10', 'MB20220308', 20220301, 'SamplePerson1', 199, 100, 100, 10000, 1000, 11000") == -1)
-	{
-		printf("%s\n", err_msg);
+	//if (_insert("3, 'Warehouse1', 1999, 'MAINBORAD', 'MB10', 'MB20220308', 20220301, 'SamplePerson1', 199, 100, 100, 10000, 1000, 11000") == -1)
+	//{
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
-	int num_Warehousing_List = 3;
+	//	file_column_free();
+	//	return -1;
+	//}
+
+	int num_Warehousing_List = 0;
 	//print_data();
 	//printf("\n");
 	
@@ -119,7 +120,7 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("1, 'CPU','CP10','CP20220308', 20220304, 'SamplePerson1', 199, 100, 1000, 10000, 1000, 11000, 100") == -1)
+	/*if (_insert("1, 'CPU','CP10','CP20220308', 20220304, 'SamplePerson1', 199, 100, 1000, 10000, 1000, 11000, 100") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -133,13 +134,14 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
+
 	if (_insert("3, 'CASE', 'CA10','CA20220308', 20220304, 'SamplePerson1', 199, 300, 3000, 90000, 9000, 99000, 100") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
-	}
+	}*/
 
 	//print_data();
 	//printf("\n");
@@ -215,21 +217,7 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("'002', 20220301, '가나다', 0, '최윤진'") == -1) {
-		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-
-	if (_insert("'003', 20220311, '라마바', 1, '최윤진'") == -1) {
-		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
+	
 	file_column_free();
 
 	//수주-물품
@@ -240,15 +228,8 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("'001', 1, 'CP10', 'CPU', 20220331, 20220329, 20, 10000, 200000, 20000, 180000") == -1) {
-		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-
-	if (_insert("'001', 1, 'HR10', 'HARD', 20220331, 20220329, 20, 10000, 200000, 20000, 180000") == -1) {
+	
+	if (_insert("'001', 1, 'PC10', 'PC1', 20220331, 20220329, 10, 10000, 200000, 20000, 180000") == -1) {
 		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
 		printf("%s\n", err_msg);
 
@@ -265,20 +246,6 @@ void Init_SampleData(void)
 		return -1;
 	}
 	if (_insert("'PC1','PC10','product',100,'PC20220301','P19999P11'") == -1) {
-		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'PC2','PC20','product',100,'CP20220302','P19999P12'") == -1) {
-		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'PC3','PC30','product',100,'CP20220303','P19999P13'") == -1) {
 		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
 		printf("%s\n", err_msg);
 
@@ -355,22 +322,6 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("'Warehouse2', 2999 ") == -1)
-	{
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-
-	if (_insert("'Warehouse3', 3999 ") == -1)
-	{
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-
 
 	//print_data();
 	//printf("\n");
@@ -394,13 +345,14 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
-	if (_insert("'1000', 'CA10', '미들형본체', '김철수', 5 , 5, 101, '9'") == -1)
+	/*if (_insert("'1000', 'CA10', '미들형본체', '김철수', 5 , 5, 101, '9'") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
 	}
+
 	if (_insert("'2000', 'PR10', '레이저프린터', '김똥개', 10, 10, 102, '7'") == -1)
 	{
 		printf("%s\n", err_msg);
@@ -408,13 +360,14 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
+
 	if (_insert("'3000', 'PC10', '데스크탑PC', '강산들', 18, 10, 103, '8'") == -1)
 	{
 		printf("%s\n", err_msg);
 
 		file_column_free();
 		return -1;
-	}
+	}*/
 	file_column_free();
 
 	//자재사용 제품별 샘플입력
@@ -471,7 +424,7 @@ void Init_SampleData(void)
 		file_column_free();
 		return -1;
 	}
-	if (_insert("6, 'CASE', 'CA10', 'Warehouse1', 1999, 'CP20220308', 20220305, 10, 0, 0, 0") == -1)
+	if (_insert("6, 'CASE', 'CA10', 'Warehouse1', 1999, 'CP20220308', 20220305, 0, 0, 0, 0") == -1)
 	{
 		printf("%s\n", err_msg);
 
@@ -494,19 +447,19 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert(values1) == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert(values1) == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert(values2) == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert(values2) == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 	file_column_free();
 
 	// 손님넣기
@@ -517,47 +470,47 @@ void Init_SampleData(void)
 		return -1;
 	}
 
-	if (_insert("'유세준'") == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert("'유세준'") == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("'박세준'") == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert("'박세준'") == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("'여세준'") == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert("'여세준'") == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("'참세준'") == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert("'참세준'") == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("'오세준'") == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert("'오세준'") == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
-	if (_insert("'김세준'") == -1) {
-		printf("%s\n", err_msg);
+	//if (_insert("'김세준'") == -1) {
+	//	printf("%s\n", err_msg);
 
-		file_column_free();
-		return -1;
-	}
+	//	file_column_free();
+	//	return -1;
+	//}
 
 	// 파일을 닫기
 	file_column_free();

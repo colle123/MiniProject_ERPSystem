@@ -27,9 +27,6 @@
     <ClCompile Include="source\server.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="source\MiniPoject_ERP_Add_ItemData.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="source\MiniProject_ERP_F_order.c">
       <Filter>소스 파일</Filter>
     </ClCompile>

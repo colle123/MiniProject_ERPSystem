@@ -21,7 +21,8 @@ void Registration_work_performance()
 	int result_count;
 	int Select = 0;
 
-	printf("(1)전체 데이터 조회 (2)작업실적 등록 (3)작업실적 삭제 (4)이전으로:");
+	printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+	printf("\t1. 전체 데이터 조회\n\t2. 작업실적 등록\n\t3. 작업실적 삭제\n\t4. 뒤로가기\n");
 	scanf("%d", &Select);
 
 		switch (Select) {
@@ -33,12 +34,14 @@ void Registration_work_performance()
 				file_column_free();
 				return -1;
 			}
+
 			else {
 				//printf("%s\n\n", select_result_str);
 			}
 			print_data();
 			file_column_free();
 			break;
+
 		case 2: //작업실적등록
 			system("cls");
 			//작업지시등록 테이블 불러옴 
@@ -65,9 +68,6 @@ void Registration_work_performance()
 				file_column_free();
 				return -1;
 			}
-			else {
-				//printf("%s\n\n", select_result_str);
-			}
 
 			if ((result_count = recv_result(&_result, select_result_str)) == -1) {
 				printf("%s\n", err_msg);
@@ -75,6 +75,7 @@ void Registration_work_performance()
 				file_column_free();
 				return -1;
 			}
+
 			//result_print(_result, result_count); //이전의 값 저장되있음 
 
 			//작업지시등록 테이블 닫음
@@ -142,6 +143,7 @@ void Registration_work_performance()
 			print_data();
 			file_column_free();
 			break;
+
 		case 3:
 			system("cls");
 			//작업실적등록 DB열기 

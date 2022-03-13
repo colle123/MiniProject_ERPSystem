@@ -17,64 +17,7 @@
 //}
 
 // Sample 품목 테이블 생성
-void Cre_Sampleitem() {
 
-	_create("ITEM", "item_NAME VARCHAR(20) item_NUMBER VARCHAR(20) item_TYPE VARCHAR(20) item_GOAL INT item_LOT VARCHAR(20) item_SirealNUMBER VARCHAR(20)");
-
-	if (initalizing("ITEM") == -1) {
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-
-	// 샘플 데이터 삽입
-	if (_insert("'CPU','CP10','meterial',100,'CP20220308','C19999P19'") == -1) {
-		//1.물품명 cpu 2.물품번호 cp10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 cp20220308 6.시리얼 번호 c19999p19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'HARD','HR10','meterial',100,'HR20220308','H1999R19'") == -1) {
-		//1.물품명 hard 2.물품번호 hr10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 hr20220308 6.시리얼 번호 h1999r19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'KEYBORAD','KE10','submeterial',100,'KE20220308','K1999E19'") == -1) {
-		//1.물품명 keyborad 2.물품번호 ke10 3.물품계정구분 submeterial 4.일생산량 100 5.LOT번호 ke20220308 6.시리얼 번호 k1999e19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'MAINBORAD','MB10','meterial',100,'MB20220308','M1999B19'") == -1) {
-		//1.물품명 mainborad 2.물품번호 mb10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 mb20220308 6.시리얼 번호 m1999b19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'MONITOR','MO10','submeterial',100,'MO20220308','M1999O19'") == -1) {
-		//1.물품명 monitor 2.물품번호 mo10 3.물품계정구분 submeterial 4.일생산량 100 5.LOT번호 mo20220308 6.시리얼 번호 m1999o19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-	if (_insert("'CASE','CA10','meterial',100,'CA20220308','C1999A19'") == -1) {
-		//1.물품명 case 2.물품번호 ca10 3.물품계정구분 meterial 4.일생산량 100 5.LOT번호 ca20220308 6.시리얼 번호 c1999a19
-		printf("%s\n", err_msg);
-
-		file_column_free();
-		return -1;
-	}
-
-	file_column_free();
-
-} 
 // 모품목마다 테이블을 만들어줌.
 void Cre_BOM_Table(char Parent_Item[SIZE]) {
 
@@ -85,18 +28,16 @@ void Cre_BOM_Table(char Parent_Item[SIZE]) {
 }
 // BOM 테이블 생성, 품번코드를 조건으로 물품데이터에서 품번코드, 품명을 받아오고 수량을 입력해줌.
 void Make_BOM() {
+	system("cls");
 
 	getchar();
-	Cre_Sampleitem();
 
 	result* _result;
 	result* find;
 	int result_count;
 
-	//char* conditional = "TP='q'";
-	//char* select_column = "code, number, TP, FLT, DBL";
-
-	system("cls");
+	//BOMFNode* Root = BOM_Create_Root_Node();
+	//BOMFNode* Parent_Node;
 
 	char Select_ITEM[10];
 	char Parameter_Insert[1000] = { NULL };
@@ -113,8 +54,6 @@ void Make_BOM() {
 
 	if (Select_Cre_Table == 'Y') {            // Y를 입력하면 새 테이블을 만들고 다른 입력은 생성 X
 
-		system("cls");
-
 		char Parent_Item[SIZE] = { NULL };
 
 		printf("\n");
@@ -124,7 +63,9 @@ void Make_BOM() {
 		scanf("%s", Parent_Item);
 
 		Cre_BOM_Table(Parent_Item);
-		
+
+		//BOM_AddClidNode(Root, Parent_Item);
+
 	}
 
 	if (initalizing("ITEM") == -1) {
@@ -144,101 +85,146 @@ void Make_BOM() {
 	scanf("%s", Select_Parent);
 	getchar();
 
+	//Parent_Node = BOMF_FoundNode(Root, Select_Parent);
+	//if (Parent_Node == NULL) {
+	//   printf("품목이 없습니다.\n");
+	//   getch();
+	//   continue;
+	//}
+
 
 	file_column_free();
 
-	if (initalizing(Select_Parent) == -1) {
-		printf("%s\n", err_msg);
+	while (1) {
+
+		if (initalizing(Select_Parent) == -1) {
+			printf("%s\n", err_msg);
+
+			file_column_free();
+
+			return -1;
+		}
+
+		printf("\n");
+		float Total = print_BOM_Total();
+		printf("=========================================================\n");
+		printf("                                 수량합계 : %.3f\n", Total);
+		printf("\n");
 
 		file_column_free();
-		return -1;
-	}
 
-	printf("\n");
-	float Total = print_BOM_Total();
-	printf("=========================================================\n");
-	printf("                                 수량합계 : %.3f\n", Total);
-	printf("\n");
+		if (initalizing("ITEM") == -1) {
+			printf("%s\n", err_msg);
 
-	file_column_free();
+			file_column_free();
+			return -1;
+		}
 
-	if (initalizing("ITEM") == -1) {
-		printf("%s\n", err_msg);
+		// BOM_NUM
 
-		file_column_free();
-		return -1;
-	}
+		while (1) {
 
-	// BOM_NUM
-	printf("추가할 순번을 입력하세요 : ");
-	scanf("%d", &BOM_NUM);
+			printf("추가할 순번을 입력하세요(1 ~ 99) : ");
+			scanf("%d", &BOM_NUM);
 
-	itoa(BOM_NUM, temp_int, 10);
-	strcat(Parameter_Insert, temp_int);
-	strcat(Parameter_Insert, ", ");
+			if (BOM_NUM > 0 && BOM_NUM < 99) break;
 
-	printf("추가할 자품목을 입력하세요 : ");
-	scanf("%s", Select_ITEM);
-	getchar();
+			else {
 
-	char Select_Item_Name[100] = "item_NUMBER =";
-	strcat(Select_Item_Name, Select_ITEM);
+				printf("올바른 값을 입력해주세요.\n");
+			}
+		}
 
-	if (_select(Select_Item_Name, "item_NUMBER, item_NAME", &select_result_str) == -1) {
-		printf("%s\n", err_msg);
+		itoa(BOM_NUM, temp_int, 10);
+		strcat(Parameter_Insert, temp_int);
+		strcat(Parameter_Insert, ", ");
 
-		file_column_free();
-		return -1;
-	}
-	else {
-		//printf("%s\n\n", select_result_str);
-	}
+		printf("추가할 자품목을 입력하세요 : ");
+		scanf("%s", Select_ITEM);
+		getchar();
 
-	if ((result_count = recv_result(&_result, select_result_str)) == -1) {
-		printf("%s\n", err_msg);
+		//BOM_AddClidNode(Parent_Node, Select_ITEM);
 
-		file_column_free();
-		return -1;
-	}
+		char Select_Item_Name[100] = "item_NUMBER =";
+		strcat(Select_Item_Name, Select_ITEM);
 
-	// Item_Number
-	strcat(Parameter_Insert, "\'");
-	strcat(Parameter_Insert, *(_result->_string_data));
-	strcat(Parameter_Insert, "\', ");
+		if (_select(Select_Item_Name, "item_NUMBER, item_NAME", &select_result_str) == -1) {
+			printf("%s\n", err_msg);
 
-	// Item_Name
-	strcat(Parameter_Insert, "\'");
-	strcat(Parameter_Insert, *(_result->next->_string_data));
-	strcat(Parameter_Insert, "\', ");
+			file_column_free();
+			return -1;
+		}
+		else {
+			//printf("%s\n\n", select_result_str);
+		}
 
-	// BOM_Amount
-	printf("자품목의 수량을 입력하세요 : ");
-	scanf("%f", &BOM_AMOUNT);
-	getchar();
+		if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+			printf("%s\n", err_msg);
 
-	sprintf(temp_float, "%f", BOM_AMOUNT);
-	strcat(Parameter_Insert, temp_float);
+			file_column_free();
+			return -1;
+		}
 
-	file_column_free();
+		// Item_Number
+		strcat(Parameter_Insert, "\'");
+		strcat(Parameter_Insert, *(_result->_string_data));
+		strcat(Parameter_Insert, "\', ");
 
-	if (initalizing(Select_Parent) == -1) {
-		printf("%s\n", err_msg);
+		// Item_Name
+		strcat(Parameter_Insert, "\'");
+		strcat(Parameter_Insert, *(_result->next->_string_data));
+		strcat(Parameter_Insert, "\', ");
+
+		// BOM_Amount
+		printf("자품목의 수량을 입력하세요 : ");
+		scanf("%f", &BOM_AMOUNT);
+		getchar();
+
+		sprintf(temp_float, "%f", BOM_AMOUNT);
+		strcat(Parameter_Insert, temp_float);
 
 		file_column_free();
-		return -1;
-	}
+
+		if (initalizing(Select_Parent) == -1) {
+			printf("%s\n", err_msg);
+
+			file_column_free();
+			return -1;
+		}
 
 
-	if (_insert(Parameter_Insert) == -1)
-	{
-		printf("%s\n", err_msg);
+		if (_insert(Parameter_Insert) == -1)
+		{
+			printf("%s\n", err_msg);
+
+			file_column_free();
+			return -1;
+		}
 
 		file_column_free();
-		return -1;
+
+		int Stop;
+
+		while (1) {
+
+
+			printf("\n1. 계속 등록  2. 등록 완료 : ");
+			scanf("%d", &Stop);
+			getchar();
+
+			if (Stop == 1) break;
+
+			else if (Stop == 2) {
+				return;
+			}
+
+			else {
+
+				printf("올바른 항목을 입력해주세요.\n");
+				continue;
+			}
+		}
 	}
-
-	file_column_free();
-
 }
 // BOM 정전개 테이블 생성
 void Make_BOM_F(BOMFNode* Node, int Level) {

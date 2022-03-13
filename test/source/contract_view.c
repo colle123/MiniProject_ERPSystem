@@ -1,6 +1,7 @@
 #pragma warning(disable:4996)
 #include"local.h"
 #include"MiniProject_ERP_1struct.h"
+
 int con_view() {
     int choice = 0;
 
@@ -94,12 +95,10 @@ int con_view() {
         getchar();
 
         if (choice == 0) {
-            Sleep(1000);
             system("cls");
             break;
         }
         else if (choice == 1) {
-            Sleep(1000);
             system("cls");
         }
         else {

@@ -180,15 +180,12 @@ void choijong_jaego_print(char n[100])
  
 
     if (_select(select_num_chulgoList, "Amountused", &select_result_str) == -1) {
-        printf("%s\n", err_msg);
-        system("pause");
+
         file_column_free();
         return -1;
     }
 
     if ((result_count = recv_result(&_result, select_result_str)) == -1) {
-        printf("%s\n", err_msg);
-        system("pause");
         file_column_free();
         return -1;
     }
@@ -421,6 +418,285 @@ void chulgo_jaego_print()
         }
     }
 
+    file_column_free();
+
+    jaego_print();
+
+}
+void choijong_jokup_print()
+{
+    result* _result;
+    result* find;
+    int result_count;
+
+    time_t timer;
+    struct tm* t;
+    timer = time(NULL);
+    t = localtime(&timer);
+
+    char Parameter_Insert[1000] = { NULL };
+    char temp_int[20] = { 0 };
+    char Select_item_num[20] = { 0 };
+    char select_num_chulgoList[100] = "Work_Instruction_Number=";
+    char work[20] = { 0 };
+
+    // 사용한재고 (현 자재관리) 리스트 출력 및 정보 받아오기
+    if (initalizing("Work_Use") == -1)
+    {
+        printf("%s\n", err_msg);
+
+        file_column_free();
+        return -1;
+    }
+
+
+ 
+    system("pause");
+
+    printf("작업을 입력하시오 : ");
+    scanf("%s", work);
+
+    strcat(select_num_chulgoList, "\'");
+    strcat(select_num_chulgoList, work);
+    strcat(select_num_chulgoList, "\'");
+
+
+    if (_select(select_num_chulgoList, "Amountused", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+
+    // 사용한 자재량
+    int Amountused = *(_result->_int_data);
+    itoa(Amountused, temp_int, 10);
+    strcat(Parameter_Insert, temp_int);
+
+
+    file_column_free();
+    result_free(_result, result_count);
+
+    /// 여기까진 된디  
+
+    if (initalizing("Jaego") == -1)
+    {
+        printf("%s\n", err_msg);
+
+        file_column_free();
+        return -1;
+    }
+
+
+    //1번
+    char select_numList[100] = "num_item='CP10'";
+
+    if (_select(select_numList, "chulgo_item", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    // chulgo_item
+    char update_num[100] = "chulgo_item=";
+
+    itoa(Amountused, temp_int, 10);      // 받아온 정보가 int형이므로 문자열로 형변환수행
+    strcat(update_num, temp_int);
+
+    // 출고한 다음 입고 재고 수량 을 업데이트한다
+    if (_update(select_numList, update_num) == -1)
+    {
+        printf("%s\n", err_msg);
+        file_column_free();
+        return -1;
+    }
+
+
+    //2번
+    char select_numList2[100] = "num_item='HR10'";
+
+    if (_select(select_numList2, "chulgo_item", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        print_data();
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    // chulgo_item
+    char update_num_1[100] = "chulgo_item=";
+
+    itoa(Amountused, temp_int, 10);      // 받아온 정보가 int형이므로 문자열로 형변환수행
+    strcat(update_num_1, temp_int);
+
+    // 출고한 다음 입고 재고 수량 을 업데이트한다
+    if (_update(select_numList2, update_num_1) == -1)
+    {
+        printf("dkaf");
+        printf("%s\n", err_msg);
+        file_column_free();
+        return -1;
+    }
+
+    //3번
+
+    char select_numList3[100] = "num_item='KE10'";
+
+    if (_select(select_numList3, "chulgo_item", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    // chulgo_item
+    char update_num2[100] = "chulgo_item=";
+
+    itoa(Amountused, temp_int, 10);      // 받아온 정보가 int형이므로 문자열로 형변환수행
+    strcat(update_num2, temp_int);
+
+    // 출고한 다음 입고 재고 수량 을 업데이트한다
+    if (_update(select_numList3, update_num2) == -1)
+    {
+        printf("%s\n", err_msg);
+        file_column_free();
+        return -1;
+    }
+
+    //4번
+
+    char select_numList4[100] = "num_item='MO10'";
+
+    if (_select(select_numList4, "chulgo_item", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    // chulgo_item
+    char update_num3[100] = "chulgo_item=";
+
+    itoa(Amountused, temp_int, 10);      // 받아온 정보가 int형이므로 문자열로 형변환수행
+    strcat(update_num3, temp_int);
+
+    // 출고한 다음 입고 재고 수량 을 업데이트한다
+    if (_update(select_numList4, update_num3) == -1)
+    {
+        printf("%s\n", err_msg);
+        file_column_free();
+        return -1;
+    }
+
+    //5번
+
+
+    char select_numList5[100] = "num_item='MB10'";
+
+    if (_select(select_numList5, "chulgo_item", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    // chulgo_item
+    char update_num4[100] = "chulgo_item=";
+
+    itoa(Amountused, temp_int, 10);      // 받아온 정보가 int형이므로 문자열로 형변환수행
+    strcat(update_num4, temp_int);
+
+    // 출고한 다음 입고 재고 수량 을 업데이트한다
+    if (_update(select_numList5, update_num4) == -1)
+    {
+        printf("%s\n", err_msg);
+        file_column_free();
+        return -1;
+    }
+
+
+    //6번
+
+
+    char select_numList6[100] = "num_item='CA10'";
+
+    if (_select(select_numList6, "chulgo_item", &select_result_str) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    if ((result_count = recv_result(&_result, select_result_str)) == -1) {
+        printf("%s\n", err_msg);
+        system("pause");
+        file_column_free();
+        return -1;
+    }
+
+    // chulgo_item
+    char update_num5[100] = "chulgo_item=";
+
+    itoa(Amountused, temp_int, 10);      // 받아온 정보가 int형이므로 문자열로 형변환수행
+    strcat(update_num5, temp_int);
+
+    // 출고한 다음 입고 재고 수량 을 업데이트한다
+    if (_update(select_numList6, update_num5) == -1)
+    {
+        printf("%s\n", err_msg);
+        file_column_free();
+        return -1;
+    }
+    /// <summary>
+    /// //////////////////////////////////
+    /// </summary>
+    /// <param name="n"></param>
+
+    result_free(_result, result_count);
     file_column_free();
 
     jaego_print();

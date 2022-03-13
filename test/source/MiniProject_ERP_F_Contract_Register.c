@@ -19,7 +19,6 @@ void con_regi_choice() {
 		scanf("%d", &choice);
 		getchar();
 
-		Sleep(1000);
 		system("cls");
 		if (choice == 0) {
 			break;
@@ -28,12 +27,10 @@ void con_regi_choice() {
 			while (1) {
 				con_regi_c = con_regi();
 				if (con_regi_c == 0) {
-					Sleep(1000);
 					system("cls");
 					break;
 				}
 				else if (con_regi_c == 1) {
-					Sleep(1000);
 					system("cls");
 				}
 				else {
@@ -48,12 +45,12 @@ void con_regi_choice() {
 			while (1) {
 				con_item_c = con_item_regi();
 				if (con_item_c == 0) {
-					Sleep(1000);
+
 					system("cls");
 					break;
 				}
 				else if (con_item_c == 1) {
-					Sleep(1000);
+
 					system("cls");
 				}
 				else {

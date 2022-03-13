@@ -23,7 +23,8 @@ void Production_warehousing()
 	char stock_num_delete[100] = { NULL };
 	int Select = 0;
 
-	printf("(1)전체 데이터 조회 (2)생산품창고입고처리 등록 (3)생산품창고입고처리 삭제: (4)이전으로 ");
+	printf("\n ==== < 원하는 메뉴선택 > ====\n\n");
+	printf("\t1. 전체 데이터 조회\n\t2. 생산품창고입고처리 등록\n\t3. 생산품창고입고처리 삭제\n\t4. 뒤로가기\n");
 	scanf("%d", &Select);
 
 		switch (Select) {
@@ -112,22 +113,33 @@ void Production_warehousing()
 			strcat(Parameter_Insert, "\'");
 
 			//생산품창고입고처리 DB열기 
-			if (initalizing("product_warehous") == -1) {
+			
+
+			//입고번호, 입고일자, 입고장소, 입고수량을 받아와서 생산품창고입고처리에 작성
+			printf("\n입고번호를 입력하세요: ");
+			scanf("%s", stock_num_Insert);
+
+			printf("입고일자를 입력하세요: ");
+			scanf("%d", &stock_date_Insert);
+
+
+			if (initalizing("WareHouse") == -1) {		// 창고파일(WareHouse) 오픈
 				printf("%s\n", err_msg);
 
 				file_column_free();
 				return -1;
 			}
 
-			//입고번호, 입고일자, 입고장소, 입고수량을 받아와서 생산품창고입고처리에 작성
-			printf("\n입고번호를 입력하세요: ");
-			scanf("%s", stock_num_Insert);
-			printf("입고일자를 입력하세요: ");
-			scanf("%d", &stock_date_Insert);
+			print_data();							// 창고목록 출력
+			printf("\n");
+			file_column_free();
+
 			printf("입고창고를 입력하세요: ");
 			scanf("%s", stock_warehouse_Insert);
+
 			printf("입고장소를 입력하세요: ");
 			scanf("%s", stock_location_Insert);
+
 			printf("입고수량을 입력하세요: ");
 			scanf("%d", &stock_count_Insert);
 
@@ -149,6 +161,14 @@ void Production_warehousing()
 
 			_itoa(stock_count_Insert, temp_int, 10);
 			strcat(Parameter_Insert, temp_int);
+
+			if (initalizing("product_warehous") == -1) {
+				printf("%s\n", err_msg);
+
+				file_column_free();
+				return -1;
+			}
+
 
 			if (_insert(Parameter_Insert) == -1) {
 				printf("%s\n", err_msg);
